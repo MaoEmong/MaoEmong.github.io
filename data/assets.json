@@ -1,0 +1,416 @@
+{
+  "synapse": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/synapse-team-archive/blob/main/README.md",
+    "branch": "main"
+  },
+  "pixel-office": {
+    "images": [
+      {
+        "file": "pixel-office-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/01-hero.jpg",
+        "alt": "픽셀 오피스 소개 화면 1",
+        "path": "/assets/images/pixel-office-1.webp",
+        "width": 1600,
+        "height": 860
+      },
+      {
+        "file": "pixel-office-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/03-conversation.jpg",
+        "alt": "픽셀 오피스 소개 화면 2",
+        "path": "/assets/images/pixel-office-2.webp",
+        "width": 1600,
+        "height": 860
+      },
+      {
+        "file": "pixel-office-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/08-stage-history.jpg",
+        "alt": "픽셀 오피스 소개 화면 3",
+        "path": "/assets/images/pixel-office-3.webp",
+        "width": 1600,
+        "height": 860
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/pixel-office/blob/main/README.md",
+    "branch": "main"
+  },
+  "ieum": {
+    "images": [
+      {
+        "file": "ieum-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/ieum-portfolio-clean/main/assets/screens/01-home.png",
+        "alt": "이음 소개 화면 1",
+        "path": "/assets/images/ieum-1.webp",
+        "width": 739,
+        "height": 1600
+      },
+      {
+        "file": "ieum-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/ieum-portfolio-clean/main/assets/screens/02-person-detail.png",
+        "alt": "이음 소개 화면 2",
+        "path": "/assets/images/ieum-2.webp",
+        "width": 739,
+        "height": 1600
+      },
+      {
+        "file": "ieum-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/ieum-portfolio-clean/main/assets/screens/03-calendar.png",
+        "alt": "이음 소개 화면 3",
+        "path": "/assets/images/ieum-3.webp",
+        "width": 739,
+        "height": 1600
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/README.md",
+    "branch": "main"
+  },
+  "video-translator": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/video-translator/blob/main/README.md",
+    "branch": "main"
+  },
+  "rag-mcp": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/RAG-LangChain-MCP/blob/main/README.md",
+    "branch": "main"
+  },
+  "rag-advanced": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/LangChain-RAG-Advanced/blob/master/README.md",
+    "branch": "master"
+  },
+  "langgraph-rag": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/LangGraph-Rag/blob/master/README.md",
+    "branch": "master"
+  },
+  "ems": {
+    "images": [
+      {
+        "file": "ems-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/ems-ai-team-portfolio/master/docs/screenshots/2026-10-18T18-54-38-906Z-f170b270/desktop-dashboard.png",
+        "alt": "EMS 사원관리 시스템 소개 화면 1",
+        "path": "/assets/images/ems-1.webp",
+        "width": 1440,
+        "height": 1399
+      },
+      {
+        "file": "ems-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/ems-ai-team-portfolio/master/docs/screenshots/2026-10-18T18-54-38-906Z-f170b270/desktop-policy-qa.png",
+        "alt": "EMS 사원관리 시스템 소개 화면 2",
+        "path": "/assets/images/ems-2.webp",
+        "width": 1440,
+        "height": 1550
+      },
+      {
+        "file": "ems-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/ems-ai-team-portfolio/master/docs/screenshots/2026-10-18T18-54-38-906Z-f170b270/desktop-payslip-detail.png",
+        "alt": "EMS 사원관리 시스템 소개 화면 3",
+        "path": "/assets/images/ems-3.webp",
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/README.md",
+    "branch": "master"
+  },
+  "apple-server": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/AppleGame_Server_Spring/blob/master/README.md",
+    "branch": "master"
+  },
+  "isaac": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/imitation_Isaac/blob/main/README.md",
+    "branch": "main"
+  },
+  "travel": {
+    "images": [
+      {
+        "file": "travel-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/travel_platform/master/README-assets/home.png",
+        "alt": "여기 한국 소개 화면 1",
+        "path": "/assets/images/travel-1.webp",
+        "width": 1132,
+        "height": 1600
+      },
+      {
+        "file": "travel-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/travel_platform/master/README-assets/login.png",
+        "alt": "여기 한국 소개 화면 2",
+        "path": "/assets/images/travel-2.webp",
+        "width": 1440,
+        "height": 1024
+      },
+      {
+        "file": "travel-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/travel_platform/master/README-assets/join.png",
+        "alt": "여기 한국 소개 화면 3",
+        "path": "/assets/images/travel-3.webp",
+        "width": 1440,
+        "height": 1037
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/travel_platform/blob/master/README.md",
+    "branch": "master"
+  },
+  "synapse-design": {
+    "images": [
+      {
+        "file": "synapse-design-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/synapse-design-preview/main/screenshots/dashboard-tutor.png",
+        "alt": "Synapse 디자인 컨셉 5종 소개 화면 1",
+        "path": "/assets/images/synapse-design-1.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "synapse-design-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/synapse-design-preview/main/screenshots/dashboard-board.png",
+        "alt": "Synapse 디자인 컨셉 5종 소개 화면 2",
+        "path": "/assets/images/synapse-design-2.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "synapse-design-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/synapse-design-preview/main/screenshots/dashboard-planner.png",
+        "alt": "Synapse 디자인 컨셉 5종 소개 화면 3",
+        "path": "/assets/images/synapse-design-3.webp",
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/synapse-design-preview/blob/main/README.md",
+    "branch": "main"
+  },
+  "platformer": {
+    "images": [],
+    "readme": "https://github.com/MaoEmong/PlatformerGame/blob/main/README.md",
+    "branch": "main"
+  },
+  "haru": {
+    "images": [
+      {
+        "file": "haru-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/haru-record/master/docs/screenshots/home.png",
+        "alt": "하루 기록 소개 화면 1",
+        "path": "/assets/images/haru-1.webp",
+        "width": 386,
+        "height": 844
+      },
+      {
+        "file": "haru-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/haru-record/master/docs/screenshots/today-records.png",
+        "alt": "하루 기록 소개 화면 2",
+        "path": "/assets/images/haru-2.webp",
+        "width": 386,
+        "height": 844
+      },
+      {
+        "file": "haru-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/haru-record/master/docs/screenshots/flow-playback.png",
+        "alt": "하루 기록 소개 화면 3",
+        "path": "/assets/images/haru-3.webp",
+        "width": 386,
+        "height": 844
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/haru-record/blob/master/README.md",
+    "branch": "master"
+  },
+  "cult": {
+    "images": [
+      {
+        "file": "cult-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/imitation_CultOfTheLamb/main/GameImage/메인이미지.jpg",
+        "alt": "Cult of the Lamb 모작 소개 화면 1",
+        "path": "/assets/images/cult-1.webp",
+        "width": 1316,
+        "height": 741
+      },
+      {
+        "file": "cult-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/imitation_CultOfTheLamb/main/GameImage/스테이지선택.jpg",
+        "alt": "Cult of the Lamb 모작 소개 화면 2",
+        "path": "/assets/images/cult-2.webp",
+        "width": 1319,
+        "height": 741
+      },
+      {
+        "file": "cult-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/imitation_CultOfTheLamb/main/GameImage/타이틀이미지.jpg",
+        "alt": "Cult of the Lamb 모작 소개 화면 3",
+        "path": "/assets/images/cult-3.webp",
+        "width": 1322,
+        "height": 746
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/imitation_CultOfTheLamb/blob/main/README.md",
+    "branch": "main"
+  },
+  "simple-rpg": {
+    "images": [
+      {
+        "file": "simple-rpg-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/SimpleRPG/main/GameImage/Town.png",
+        "alt": "SimpleRPG 소개 화면 1",
+        "path": "/assets/images/simple-rpg-1.webp",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "simple-rpg-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/SimpleRPG/main/GameImage/NPC.png",
+        "alt": "SimpleRPG 소개 화면 2",
+        "path": "/assets/images/simple-rpg-2.webp",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "simple-rpg-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/SimpleRPG/main/GameImage/Title.png",
+        "alt": "SimpleRPG 소개 화면 3",
+        "path": "/assets/images/simple-rpg-3.webp",
+        "width": 1280,
+        "height": 720
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/SimpleRPG/blob/main/README.md",
+    "branch": "main"
+  },
+  "swordsman": {
+    "images": [
+      {
+        "file": "swordsman-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/raisingSwordman/main/GameImage/메뉴_상점.jpg",
+        "alt": "검사키우기 소개 화면 1",
+        "path": "/assets/images/swordsman-1.webp",
+        "width": 424,
+        "height": 745
+      },
+      {
+        "file": "swordsman-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/raisingSwordman/main/GameImage/스킬_메테오.jpg",
+        "alt": "검사키우기 소개 화면 2",
+        "path": "/assets/images/swordsman-2.webp",
+        "width": 422,
+        "height": 750
+      },
+      {
+        "file": "swordsman-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/raisingSwordman/main/GameImage/캐릭터_스테이터스.jpg",
+        "alt": "검사키우기 소개 화면 3",
+        "path": "/assets/images/swordsman-3.webp",
+        "width": 419,
+        "height": 747
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/raisingSwordman/blob/main/README.md",
+    "branch": "main"
+  },
+  "apple-game": {
+    "images": [
+      {
+        "file": "apple-game-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/AppleGame_Unity/main/Images/title.png",
+        "alt": "AppleGame 소개 화면 1",
+        "path": "/assets/images/apple-game-1.webp",
+        "width": 777,
+        "height": 439
+      },
+      {
+        "file": "apple-game-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/AppleGame_Unity/main/Images/game.png",
+        "alt": "AppleGame 소개 화면 2",
+        "path": "/assets/images/apple-game-2.webp",
+        "width": 774,
+        "height": 433
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/AppleGame_Unity/blob/main/README.md",
+    "branch": "main"
+  },
+  "neon-slider": {
+    "images": [
+      {
+        "file": "neon-slider-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/NeonSlider/main/GameImage/Title.jpg",
+        "alt": "NeonSlider 소개 화면 1",
+        "path": "/assets/images/neon-slider-1.webp",
+        "width": 1600,
+        "height": 900
+      },
+      {
+        "file": "neon-slider-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/NeonSlider/main/GameImage/SelectStage.jpg",
+        "alt": "NeonSlider 소개 화면 2",
+        "path": "/assets/images/neon-slider-2.webp",
+        "width": 1600,
+        "height": 786
+      },
+      {
+        "file": "neon-slider-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/NeonSlider/main/GameImage/GameImage.jpg",
+        "alt": "NeonSlider 소개 화면 3",
+        "path": "/assets/images/neon-slider-3.webp",
+        "width": 1600,
+        "height": 782
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/NeonSlider/blob/main/README.md",
+    "branch": "main"
+  },
+  "tetris": {
+    "images": [
+      {
+        "file": "tetris-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/Unity-Tetris/main/Assets/Docs/Screenshot_408.png",
+        "alt": "Unity Tetris 소개 화면 1",
+        "path": "/assets/images/tetris-1.webp",
+        "width": 1437,
+        "height": 801
+      },
+      {
+        "file": "tetris-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/Unity-Tetris/main/Assets/Docs/Screenshot_409.png",
+        "alt": "Unity Tetris 소개 화면 2",
+        "path": "/assets/images/tetris-2.webp",
+        "width": 1434,
+        "height": 809
+      },
+      {
+        "file": "tetris-3.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/Unity-Tetris/main/Assets/Docs/Screenshot_410.png",
+        "alt": "Unity Tetris 소개 화면 3",
+        "path": "/assets/images/tetris-3.webp",
+        "width": 1431,
+        "height": 802
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/Unity-Tetris/blob/main/README.md",
+    "branch": "main"
+  },
+  "suika": {
+    "images": [
+      {
+        "file": "suika-1.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/SuikaGame_Unity/main/Images/title.png",
+        "alt": "수박게임 · Watermelon 소개 화면 1",
+        "path": "/assets/images/suika-1.webp",
+        "width": 778,
+        "height": 438
+      },
+      {
+        "file": "suika-2.image",
+        "source": "https://raw.githubusercontent.com/MaoEmong/SuikaGame_Unity/main/Images/game.png",
+        "alt": "수박게임 · Watermelon 소개 화면 2",
+        "path": "/assets/images/suika-2.webp",
+        "width": 775,
+        "height": 437
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/SuikaGame_Unity/blob/main/README.md",
+    "branch": "main"
+  }
+}
