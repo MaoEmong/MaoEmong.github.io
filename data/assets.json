@@ -154,36 +154,6 @@
     "readme": "https://github.com/MaoEmong/travel_platform/blob/master/README.md",
     "branch": "master"
   },
-  "synapse-design": {
-    "images": [
-      {
-        "file": "synapse-design-1.image",
-        "source": "https://raw.githubusercontent.com/MaoEmong/synapse-design-preview/main/screenshots/dashboard-tutor.png",
-        "alt": "Synapse 디자인 컨셉 5종 소개 화면 1",
-        "path": "/assets/images/synapse-design-1.webp",
-        "width": 1440,
-        "height": 900
-      },
-      {
-        "file": "synapse-design-2.image",
-        "source": "https://raw.githubusercontent.com/MaoEmong/synapse-design-preview/main/screenshots/dashboard-board.png",
-        "alt": "Synapse 디자인 컨셉 5종 소개 화면 2",
-        "path": "/assets/images/synapse-design-2.webp",
-        "width": 1440,
-        "height": 900
-      },
-      {
-        "file": "synapse-design-3.image",
-        "source": "https://raw.githubusercontent.com/MaoEmong/synapse-design-preview/main/screenshots/dashboard-planner.png",
-        "alt": "Synapse 디자인 컨셉 5종 소개 화면 3",
-        "path": "/assets/images/synapse-design-3.webp",
-        "width": 1440,
-        "height": 900
-      }
-    ],
-    "readme": "https://github.com/MaoEmong/synapse-design-preview/blob/main/README.md",
-    "branch": "main"
-  },
   "platformer": {
     "images": [],
     "readme": "https://github.com/MaoEmong/PlatformerGame/blob/main/README.md",

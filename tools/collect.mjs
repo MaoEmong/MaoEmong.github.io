@@ -7,7 +7,7 @@ const root=path.resolve(import.meta.dirname,'..');
 const cache=path.join(root,'.work/readmes');
 await fs.mkdir(cache,{recursive:true});
 const gh=async(args)=>(await run('gh',args,{encoding:'utf8',maxBuffer:8*1024*1024,windowsHide:true})).stdout;
-const excluded=new Set(['MaoEmong','interview-study','ieum-models','MaoEmong.github.io']);
+const excluded=new Set(['MaoEmong','interview-study','ieum-models','MaoEmong.github.io','synapse-design-preview']);
 const all=JSON.parse(await gh(['repo','list','MaoEmong','--limit','1000','--json','name,description,visibility,url,defaultBranchRef']));
 const repos=all.filter(r=>r.visibility==='PUBLIC'&&!excluded.has(r.name));
 let index=0;const results=[];
