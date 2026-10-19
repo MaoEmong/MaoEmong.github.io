@@ -1,6 +1,6 @@
 # 김해준 개발 포트폴리오
 
-공개 프로젝트 21개를 목차에서 선택하고, 프로젝트별 설명과 GitHub 저장소·PDF를 확인하는 GitHub Pages 사이트입니다.
+공개 프로젝트 20개를 목차에서 선택하고, 프로젝트별 설명과 GitHub 저장소·PDF를 확인하는 GitHub Pages 사이트입니다.
 
 - 사이트: https://maoemong.github.io/
 - 목록: `index.html`
