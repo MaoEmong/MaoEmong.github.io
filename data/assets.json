@@ -382,5 +382,35 @@
     ],
     "readme": "https://github.com/MaoEmong/SuikaGame_Unity/blob/main/README.md",
     "branch": "main"
+  },
+  "commerce": {
+    "images": [
+      {
+        "file": "home-desktop.jpg",
+        "source": "https://raw.githubusercontent.com/MaoEmong/commerce-ai-portfolio/main/docs/screenshots/home-desktop.jpg",
+        "alt": "이커머스 · 고객 홈 화면",
+        "path": "/assets/images/commerce-1.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "detail-desktop.jpg",
+        "source": "https://raw.githubusercontent.com/MaoEmong/commerce-ai-portfolio/main/docs/screenshots/detail-desktop.jpg",
+        "alt": "이커머스 · 상품 상세와 선택 항목",
+        "path": "/assets/images/commerce-2.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "home-mobile.jpg",
+        "source": "https://raw.githubusercontent.com/MaoEmong/commerce-ai-portfolio/main/docs/screenshots/home-mobile.jpg",
+        "alt": "이커머스 · 모바일 홈 화면",
+        "path": "/assets/images/commerce-3.webp",
+        "width": 780,
+        "height": 1688
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/README.md",
+    "branch": "main"
   }
 }

@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import argparse
 from xml.sax.saxutils import escape
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -24,6 +25,11 @@ pdfmetrics.registerFontFamily('KR',normal='KR',bold='KR-Bold')
 W,H=A4; M=39; CW=W-2*M
 INK=HexColor('#202c27');MUTED=HexColor('#647267');ACC=HexColor('#285943');PALE=HexColor('#edf2e8');LINE=HexColor('#dce4d6')
 manifest={}
+parser=argparse.ArgumentParser(description='Build project PDFs; preserve other PDFs with --only.')
+parser.add_argument('--only', nargs='+', help='Project IDs to regenerate')
+args=parser.parse_args()
+if args.only and not set(args.only).issubset({p['id'] for p in DATA}):
+    parser.error('Unknown project ID')
 
 def make(project):
     file=OUT/f'{project["id"]}-portfolio.pdf'
@@ -89,7 +95,7 @@ def make(project):
     # Fixed bottom source area stays clear of the body.
     if y>672:raise ValueError(f'Evidence too long for source area: {project["id"]} {y}')
     line(691)
-    text(M,709,'정리 기준 · 공개 README / 2026-10-19',8.4,'KR-Bold',MUTED)
+    text(M,709,'정리 기준 · 공개 README / '+project.get('sourceUpdated','2026-10-19'),8.4,'KR-Bold',MUTED)
     link(M,731,'원본 README에서 구현 내용과 검사 범위 확인',project['assets']['readme'],8.8)
     link(M,754,project['github'],project['github'],8.6)
     footer(2)
@@ -113,9 +119,10 @@ def make(project):
     return file
 
 for project in DATA:
-    # Preserve the six-page Pixel Office portfolio already reviewed by the user.
-    previous=OUT/'pixel-office-portfolio.pdf'
-    if project['id']=='pixel-office' and previous.exists():
+    previous=OUT/f'{project["id"]}-portfolio.pdf'
+    if project['id']=='pixel-office' or (args.only and project['id'] not in args.only):
+        if not previous.exists():
+            raise FileNotFoundError(f'Build the missing PDF first: {previous.name}')
         file=previous
     else:file=make(project)
     reader=PdfReader(file)

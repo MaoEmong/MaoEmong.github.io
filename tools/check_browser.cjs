@@ -30,7 +30,8 @@ for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
   const href=await page.locator('.case-actions a[download]').getAttribute('href');
   assert.equal(href,`/output/pdf/${p.id}-portfolio.pdf`);
   if(viewport.width===1440){const response=await page.request.get(base+href);assert.equal(response.status(),200);assert.equal((await response.body()).subarray(0,5).toString(),'%PDF-');}
-  if(viewport.width===390&&['ems','pixel-office','ieum'].includes(p.id))await page.screenshot({path:path.join(root,`.work/${p.id}-mobile.png`)});
+  if(viewport.width===1440&&p.id==='commerce')await page.screenshot({path:path.join(root,'.work/commerce-desktop.png')});
+  if(viewport.width===390&&['ems','pixel-office','ieum','commerce'].includes(p.id))await page.screenshot({path:path.join(root,`.work/${p.id}-mobile.png`)});
   checks.push({project:p.id,width:viewport.width,ok:true});
  }
 }
