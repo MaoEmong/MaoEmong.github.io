@@ -412,5 +412,35 @@
     ],
     "readme": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/README.md",
     "branch": "main"
+  },
+  "support-desk": {
+    "images": [
+      {
+        "file": "01-customer-tickets.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/support-desk/main/docs/screenshots/01-customer-tickets.png",
+        "alt": "고객 문의 목록과 처리 상태",
+        "path": "/assets/images/support-desk-1.webp",
+        "width": 1600,
+        "height": 1000
+      },
+      {
+        "file": "05-admin-queue.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/support-desk/main/docs/screenshots/05-admin-queue.png",
+        "alt": "상담원 문의 목록과 분류·긴급도",
+        "path": "/assets/images/support-desk-2.webp",
+        "width": 1600,
+        "height": 1000
+      },
+      {
+        "file": "03-chatbot-faq.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/support-desk/main/docs/screenshots/03-chatbot-faq.png",
+        "alt": "도움말 근거를 함께 보여 주는 챗봇",
+        "path": "/assets/images/support-desk-3.webp",
+        "width": 1600,
+        "height": 1000
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/support-desk/blob/main/README.md",
+    "branch": "main"
   }
 }
