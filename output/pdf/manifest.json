@@ -8,7 +8,7 @@
   "pixel-office": {
     "file": "pixel-office-portfolio.pdf",
     "pages": 6,
-    "bytes": 1115717,
+    "bytes": 1116393,
     "github": "https://github.com/MaoEmong/pixel-office"
   },
   "ieum": {
@@ -22,6 +22,12 @@
     "pages": 3,
     "bytes": 1241551,
     "github": "https://github.com/MaoEmong/commerce-ai-portfolio"
+  },
+  "support-desk": {
+    "file": "support-desk-portfolio.pdf",
+    "pages": 3,
+    "bytes": 749700,
+    "github": "https://github.com/MaoEmong/support-desk"
   },
   "synapse": {
     "file": "synapse-portfolio.pdf",

@@ -19,8 +19,8 @@ OUT = ROOT / 'output/pdf/pixel-office-portfolio.pdf'
 OUT.parent.mkdir(parents=True, exist_ok=True)
 SHOTS = ROOT / '.work/pixel-office-screenshots'
 REPO = 'https://github.com/MaoEmong/pixel-office'
-RELEASE = REPO + '/releases/tag/v0.1.1'
-VERIFY = REPO + '/blob/main/docs/release/0.1.1/VERIFICATION.md'
+RELEASE = REPO + '/releases/tag/v0.1.2'
+VERIFY = REPO + '/blob/main/docs/release/0.1.2/VERIFICATION.md'
 GALLERY = REPO + '/blob/main/docs/screenshots/README.md'
 SHOTS.mkdir(parents=True, exist_ok=True)
 for name in ['01-hero.jpg','03-conversation.jpg','08-stage-history.jpg','14-question-to-lead.jpg','15-command-approval.jpg']:
@@ -111,14 +111,14 @@ label(M,31,'PROJECT PORTFOLIO / 2026.10')
 text(M,67,'PIXEL OFFICE',39,'Helvetica-Bold')
 text(M,118,'픽셀 오피스 · AI 팀의 작업을 관리하는 앱',17.6,'Korean-Bold')
 para(M,157,CW,'여러 AI가 무엇을 하고, 누구를 기다리며, 왜 멈췄는지 확인합니다.<br/>부장과의 대화부터 팀 구성·회의·실행·결과 검토를 하나의 화면으로 연결했습니다.',10.5,17,MUTED)
-for x,w,t in [(M,77,'Windows x64'),(M+86,119,'Flutter + Node.js'),(M+214,89,'v0.1.1 시험판')]:
+for x,w,t in [(M,77,'Windows x64'),(M+86,119,'Flutter + Node.js'),(M+214,89,'v0.1.2 시험판')]:
     box(x,204,w,24,PALE,radius=5);text(x+10,210,t,8.5,'Korean',ACCENT)
 screenshot('01-hero.jpg',247)
 text(M,535,'실제 Windows 앱 화면. 대화·작업·사용량은 기능 설명을 위한 예시 데이터입니다.',8.1,'Korean',MUTED)
 gap=10; tile=(CW-2*gap)/3
 small_card(M,574,tile,79,'01  작업 흐름 통합','대화·회의·계획·단계 기록을<br/>한곳에서 확인')
 small_card(M+tile+gap,574,tile,79,'02  실패와 복구','대기 대상·오류 원인을 알리고<br/>기존 요청을 보존')
-small_card(M+2*(tile+gap),574,tile,79,'03  Windows 배포','실행 구성품을 함께 묶어<br/>0.1.1 시험판 공개')
+small_card(M+2*(tile+gap),574,tile,79,'03  Windows 배포','실행 구성품을 함께 묶어<br/>0.1.2 시험판 공개')
 box(M,678,CW,63,PALE)
 text(M+15,689,'GitHub · 앱 소개 / 스크린샷 / 다운로드',9,'Korean-Bold',ACCENT)
 link(M+15,712,REPO,REPO,10.2)
@@ -198,12 +198,12 @@ para(M+14,708,CW-28,'여러 연결 화면의 승인 목록, 늦게 도착한 반
 end(5)
 
 # 06 / Evidence and responsibility
-header(6,'검증·배포와 역할','검증 결과와 남은 과제를 기록한다','Windows 0.1.1 시험판을 공개했습니다. 아래는 2026-10-19 개발·배포 기록을 기준으로 정리한 자동 검사와 배포본 확인 결과입니다.')
+header(6,'검증·배포와 역할','검증 결과와 남은 과제를 기록한다','Windows 0.1.2 시험판을 공개했습니다. 아래는 2026-10-22 개발·배포 기록을 기준으로 정리한 자동 검사와 배포본 확인 결과입니다.')
 row_data=[
- ('앱 자동 검사','880개 통과','1개 건너뜀 · 0.1.1 공개 검증 기록'),
- ('내부 프로그램 자동 검사','1,343개 통과','15개 건너뜀 · 0.1.1 공개 검증 기록'),
+ ('앱 자동 검사','896개 통과','1개 건너뜀 · 0.1.2 공개 검증 기록'),
+ ('내부 프로그램 자동 검사','1,347개 통과','15개 건너뜀 · 0.1.2 공개 검증 기록'),
  ('압축 해제본 실행·복구','10개 통과','실제 터미널·이미지 처리·재시작 등'),
- ('배포 파일 대조','1,935개 일치','원본·복원·디버깅 파일 제외 검사'),
+ ('배포 파일 대조','1,940개 일치','원본·복원·디버깅 파일 제외 검사'),
 ]
 for i,(title,value,note) in enumerate(row_data):
     top=166+i*51
@@ -211,7 +211,7 @@ for i,(title,value,note) in enumerate(row_data):
     text(M+12,top+12,title,10,'Korean-Bold')
     text(M+232,top+10,value,12,'Korean-Bold',ACCENT)
     text(M+232,top+29,note,8,'Korean',MUTED)
-para(M,384,CW,'자동 검사에는 모의 AI 응답이 포함됩니다. 통과 수는 실제 AI 작업 전체의 성공 횟수를 뜻하지 않습니다. 배포본 실행 검사는 같은 PC에서 사용자 데이터와 실행 경로를 분리해 수행했습니다.',9.2,14.5,MUTED)
+para(M,384,CW,'0.1.2에는 웹 미리보기와 한글 입력 보완이 포함됩니다. 자동 검사에는 모의 AI 응답이 포함됩니다. 통과 수는 실제 AI 작업 전체의 성공 횟수를 뜻하지 않습니다. 배포본 실행 검사는 같은 PC에서 사용자 데이터와 실행 경로를 분리해 수행했습니다.',9.2,14.5,MUTED)
 small_card(M,450,(CW-12)/2,113,'직접 주도한 부분','제품 목표·기능 우선순위 결정, 실제 사용 중 문제 제보와 동작 기준 제시, 결과 검토와 공개·배포 방향을 정했습니다.')
 small_card(M+(CW+12)/2,450,(CW-12)/2,113,'AI가 지원한 부분','Claude Code·Codex로 원인 분석, 코드 구현, 테스트 작성·실행과 문서 정리를 진행했습니다. 프로젝트 결정과 구현 작업의 역할을 구분해 기록했습니다.')
 para(M,585,CW,'남은 과제: 개발 도구가 없는 다른 Windows PC에서의 실행, 실제 계정 조합별 장시간 작업과 로그인 만료 복구 확인. 코드 서명을 하지 않은 시험판이며 정식 안정판으로 안내하지 않습니다.',9.8,15.8)
@@ -230,7 +230,7 @@ c.save()
 reader=PdfReader(OUT)
 assert len(reader.pages)==6
 all_text='\n'.join(p.extract_text() or '' for p in reader.pages)
-for expected in ['픽셀 오피스','김해준','1,343','880','1,935',REPO]:
+for expected in ['픽셀 오피스','김해준','1,347','896','1,940',REPO]:
     assert expected in all_text, expected
 links=[]
 for page in reader.pages:
