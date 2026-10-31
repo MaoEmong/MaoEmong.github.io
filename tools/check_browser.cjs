@@ -12,7 +12,7 @@ await page.goto(base,{waitUntil:'networkidle'});await page.locator('[data-projec
 assert.equal(await page.locator('[data-project]').count(),data.length);
 assert.equal(await page.locator('.project-row').first().getAttribute('href'),'/projects/ems/');
 await page.screenshot({path:path.join(root,'.work/index-desktop.png')});
-await page.locator('[data-filter="AI·검색"]').click();assert.equal(await page.locator('[data-project]:visible').count(),4);
+await page.locator('[data-filter="AI·서비스"]').click();assert.equal(await page.locator('[data-project]:visible').count(),3);
 await page.locator('#project-search').fill('does-not-exist-78201');await page.locator('.empty-state').waitFor({state:'visible'});
 await page.locator('#reset-search').click();assert.equal(await page.locator('[data-project]:visible').count(),data.length);
 await page.locator('#project-search').fill('SQLite');assert((await page.locator('[data-project]:visible').count())>0);assert((await page.locator('[data-project]:visible').count())<data.length);await page.locator('#project-search').fill('');

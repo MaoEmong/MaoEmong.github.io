@@ -22,8 +22,9 @@ def render(item):
     return slug
 with ThreadPoolExecutor(max_workers=4) as pool:list(pool.map(render,manifest.items()))
 files=[]
-for slug,data in manifest.items():files.extend((slug,i,TEMP/f'{slug}-{i}.png') for i in range(1,data['pages']+1))
-font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',15)
+for slug,data in manifest.items():files.extend((slug,i,TEMP/f'{slug}-{str(i).zfill(len(str(data["pages"])))}.png') for i in range(1,data['pages']+1))
+font_path=next((p for p in ['C:/Windows/Fonts/arial.ttf','/System/Library/Fonts/Supplemental/Arial.ttf','/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'] if Path(p).exists()),None)
+font=ImageFont.truetype(font_path,15) if font_path else ImageFont.load_default()
 for start in range(0,len(files),6):
     group=files[start:start+6]
     sheet=Image.new('RGB',(1740,1710),'#dce2d8');draw=ImageDraw.Draw(sheet)

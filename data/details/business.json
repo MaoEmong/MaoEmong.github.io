@@ -1,0 +1,470 @@
+{
+  "ems": {
+    "base": {
+      "summary": "사원·조직·휴가·평가를 연결하고, 동시 결재와 확정 기록의 일관성을 다룬 인사 업무 웹 서비스입니다.",
+      "overview": "사원 정보를 등록하는 CRUD에서 출발해 발령 이력, 휴가 잔액, 월별 데모 급여와 평가까지 확장했습니다. 변경·감사·알림을 함께 처리하고, AI는 서버가 허용한 데이터를 읽어 검색을 제안하거나 원문과 분리된 요약을 제공합니다."
+    },
+    "facts": [
+      {
+        "label": "서비스 대상",
+        "value": "관리자와 일반 사원이 사용하는 인사 업무 시스템"
+      },
+      {
+        "label": "주요 실행 구조",
+        "value": "React → Spring Boot API → MySQL / Docker Compose"
+      },
+      {
+        "label": "AI 경계",
+        "value": "LlmClient 제공자 분리, 기본 Mock / 실제 추론 미검증"
+      },
+      {
+        "label": "소개 데이터",
+        "value": "합성 사원·규정과 고정 비율 데모 급여"
+      }
+    ],
+    "problem": [
+      "인사 업무는 사원 한 명의 정보를 수정하는 화면만으로 끝나지 않습니다. 부서를 옮기면 현재 소속과 발령 이력이 함께 바뀌어야 하고, 휴가를 신청하면 승인 전에도 사용 가능한 잔액이 줄어야 합니다. 급여가 확정된 뒤에는 사원의 이름이나 소속이 바뀌더라도 당시 명세를 같은 내용으로 조회할 수 있어야 합니다. EMS는 이런 업무 간 연결과 변경 순서를 백엔드에서 일관되게 유지하는 것을 중심 과제로 삼았습니다.",
+      "또 다른 과제는 민감한 업무에 AI를 어디까지 허용할지 정하는 것이었습니다. 검색 제안이 기존 조건을 조용히 덮거나 생성된 평가 요약이 확정 점수보다 더 권위 있게 보이면 사용자가 결과를 오해할 수 있습니다. 따라서 AI의 역할을 검색 조건 제안, 확정 평가의 읽기 전용 요약, 합성 규정 Q&A로 좁히고 권한·전송 범위·명시적 적용을 제품 흐름 안에 포함했습니다."
+    ],
+    "architecture": [
+      {
+        "title": "권한을 통과한 업무 API",
+        "body": "브라우저는 React 화면에서 Spring Boot API를 호출하고, 서버가 JWT와 계정 활성 상태·역할을 확인합니다. 사원 정보, 발령, 근태·휴가, 급여·평가의 조회 범위를 업무별로 나누며 퇴사 시 계정을 비활성화합니다. 화면의 버튼 숨김과 별개로 API에서도 접근을 판단합니다."
+      },
+      {
+        "title": "상태·감사·알림의 같은 커밋",
+        "body": "발령은 사원 행을 잠근 뒤 이전 값을 읽어 현재 소속·이력·감사를 함께 갱신합니다. 휴가 처리도 업무 변경·감사·알림을 한 트랜잭션으로 묶습니다. Flyway V1~V4로 스키마를 확장하고, 확정 급여에는 당시 이름·소속·금액·공제율과 산식을 스냅샷으로 보존합니다."
+      },
+      {
+        "title": "제품 AI와 개발 AI의 분리",
+        "body": "서버의 LlmClient 뒤에 Mock·Anthropic·Ollama 경로를 둡니다. 호출 전에 권한·입력·호출 상한을 검사하고 결과의 JSON 구조·허용값·인용을 검증합니다. 검색에는 카탈로그, 요약에는 허용된 코멘트, 규정 Q&A에는 고정 합성 문서만 제공합니다. 개발에 사용한 Claude Code·Codex의 협업은 이 제품 호출 경로와 별개입니다."
+      }
+    ],
+    "journey": [
+      {
+        "title": "1. 사원 등록에서 조직 변경으로",
+        "body": "관리자는 사원과 로그인 계정을 등록하고 부서·직급을 연결합니다. 이후 소속 변경은 일반 정보 수정 대신 발령 흐름으로 수행해 변경 전후 정보와 작성 시점을 남깁니다. 퇴사는 이력을 지우는 대신 계정 활성 상태를 바꿉니다."
+      },
+      {
+        "title": "2. 신청·승인·취소와 휴가 잔액",
+        "body": "사원은 잔액을 확인하고 연차·반차 등을 신청합니다. 대기 중 신청은 예약량, 승인된 신청은 사용량으로 반영합니다. 관리자는 본인 신청을 결재할 수 없으며, 이미 처리된 신청이나 시작일을 지난 취소 등은 서버 규칙으로 막습니다."
+      },
+      {
+        "title": "3. 월별 데모 급여 생성·확정",
+        "body": "관리자는 급여 설정을 바탕으로 월별 초안을 만들고 전체 결과를 확인한 뒤 확정합니다. 초안 재계산과 확정 상태를 구분하며, 사원에게는 본인의 확정 명세만 공개합니다. 명세의 고정 비율 공제는 화면과 문서에서 데모로 안내합니다."
+      },
+      {
+        "title": "4. 확정 평가와 AI 보조",
+        "body": "자기·관리자 평가를 진행한 뒤 확정된 원문·점수·등급을 먼저 보여 줍니다. AI 요약은 별도 읽기 영역으로 표시합니다. 자연어 검색도 제안과 현재 조건의 비교를 보여 준 뒤 사용자가 적용해야 기존 목록 API를 호출합니다."
+      }
+    ],
+    "engineering": [
+      {
+        "title": "휴가 중복 신청과 잔액 경합을 함께 다루기",
+        "problem": "동시에 두 신청이 같은 잔액을 보고 승인되면 허용 일수를 넘길 수 있습니다. 승인·취소·퇴사 처리가 서로 다른 잠금 순서를 사용해도 경합 문제가 생깁니다.",
+        "choice": "사원 → 잔액 순서로 잠그고, 대기·승인 신청의 합계에서 reserved·used를 다시 계산합니다. 날짜 중복은 오전·오후 반차의 비트 마스크로 검사하며 상태 변경·감사·알림을 같은 트랜잭션에서 처리합니다.",
+        "tradeoff": "처리 순서가 명확해지는 대신 동일 사원의 요청은 직렬화됩니다. 평일 중심 휴가 계산 등 정책은 단순화되어 있어 실제 회사 규정 전체를 대신하지 않습니다.",
+        "source": {
+          "label": "LeaveService — 잠금·잔액 재계산·상태 전이",
+          "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/backend/src/main/java/com/portfolio/ems/LeaveService.java"
+        }
+      },
+      {
+        "title": "월 단위 원자성과 확정 스냅샷",
+        "problem": "급여 생성 중 설정이 누락되거나 두 관리자가 같은 월을 확정하면 일부 명세만 남거나 확정 내용이 달라질 수 있습니다. 현재 사원 정보를 매번 조인하면 과거 명세도 바뀝니다.",
+        "choice": "월별 MySQL GET_LOCK과 행 잠금을 함께 사용하고 동일 JDBC 연결에서 커밋·롤백 뒤 named lock을 해제합니다. 설정 누락·감사 실패는 월 전체를 롤백하며, 확정 뒤 수정·재생성을 막고 이름·소속·금액·산식·처리자를 스냅샷합니다.",
+        "tradeoff": "동일 월 작업이 겹치면 즉시 PAYROLL_BUSY로 돌려보냅니다. 월 전체의 일관성을 우선하는 설계이며 일할 계산과 실제 세법·4대보험 산정은 포함하지 않습니다.",
+        "source": {
+          "label": "ADR 0110 — 월 잠금과 확정 스냅샷",
+          "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/adr/0110-demo-payroll-month-snapshots.md"
+        }
+      },
+      {
+        "title": "AI 제안의 적용 시점과 화면 수명 제한",
+        "problem": "늦게 도착한 응답이 다른 계정이나 새 요청 화면에 섞일 수 있고, 검색 제안·평가 요약이 기존 업무 데이터를 자동 변경하면 사용자의 의도와 어긋납니다.",
+        "choice": "사용자의 명시 실행만 생성 요청으로 연결합니다. 검색 제안은 다섯 필드의 적용 전후 비교와 확인을 거쳐 전체 교체하고, 평가 요약에는 저장·제출 경로를 두지 않습니다. 입력·응답은 컴포넌트 메모리만 사용하며 화면 해제·계정 변경 시 요청을 중단하고 이전 응답을 버립니다.",
+        "tradeoff": "자동 적용·공유 캐시·자동 재시도의 편의보다 사용자의 확인과 정보 수명을 우선했습니다. 브라우저 요청 중단이 제공자 처리나 비용 취소를 보장하지는 않습니다.",
+        "source": {
+          "label": "ADR 0206 — 명시 실행과 일시적 결과",
+          "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/adr/0206-ai-explicit-execution-and-ephemeral-results.md"
+        }
+      }
+    ],
+    "contribution": [
+      "본인은 인사 업무를 하나의 서비스로 연결한다는 목표와 필요한 사용자 흐름을 제시하고, 구현·디자인 검토를 서로 다른 AI 도구로 진행하도록 작업 방향을 정했습니다. 세부 잠금 정책이나 API 결정 모두를 직접 작성했다고 주장하기보다, 요구사항과 채택된 설계·구현·검수 근거를 구분해 설명하는 프로젝트입니다.",
+      "공개 협업 기록상 Claude Code는 설계 검토·UI 시안·이미지 검수를, Codex는 백엔드·프론트 구현·테스트·문서와 통합 검수를 담당했습니다. API 계약과 ADR을 기준으로 병행 작업을 맞추고, 이미지 피드백 뒤 수정·재촬영을 연결했습니다. AI가 작성한 코드의 양이나 측정하지 않은 시간 절감을 본인 성과 수치로 환산하지 않습니다."
+    ],
+    "validation": [
+      {
+        "label": "업무·AI 통합 검수",
+        "result": "2026-10-16 기록에 실제 Compose·MySQL·Chromium 회귀 62개와 AI Mock 12개 통과가 남아 있습니다.",
+        "scope": "해당 시점 소스의 검수입니다. AI Mock 경로 확인이며 실제 제공자 추론 결과가 아닙니다.",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/README.md"
+      },
+      {
+        "label": "공개 준비 백엔드 검사",
+        "result": "2026-10-19 integrationTest 79/79가 새로 실행되었습니다. 단위/MVC 147개는 기존 결과를 재사용했습니다.",
+        "scope": "새 실행과 재사용 수치를 합산하지 않습니다. 정적·자동 보안 점검은 운영 보안 인증을 의미하지 않습니다.",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/security/README.md"
+      },
+      {
+        "label": "실행·화면 재현",
+        "result": "새 Compose 프로젝트에서 로그인과 API 5개 200, Chromium 4개 화면, 종료 후 볼륨 보존·포트 반환을 확인한 기록이 있습니다.",
+        "scope": "2026-10-19 공개 준비 당시 실행 근거입니다. 이번 소개 작성에서는 제품 검사를 다시 실행하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/security/README.md"
+      }
+    ],
+    "limitations": [
+      "제품 AI는 Mock으로 시연했습니다. Anthropic·Ollama 설정과 어댑터가 있어도 실제 추론·응답 품질·비용은 검증하지 않았습니다.",
+      "급여는 고정 비율 데모이며 근태·연차 정책도 단순화했습니다. 실제 인사·급여 운영 시스템으로 검증된 것은 아닙니다.",
+      "sessionStorage 토큰의 XSS 노출 가능성, 로그인 속도 제한·개별 JWT 폐기·전체 CSP 미구현이 공개 보안 문서에 남아 있습니다.",
+      "운영 배포·부하·침투 테스트와 포괄적인 접근성 검증은 수행하지 않았으며 일부 디자인 지적과 빌드 청크 경고가 남아 있습니다."
+    ],
+    "nextSteps": [
+      "실제 제공자를 별도 평가 환경에서 연결해 허용 데이터 전송·오류 처리와 인용 의미 정확성을 검증하고 Mock 결과와 분리해 기록합니다.",
+      "인증 저장 방식·로그인 제한·토큰 폐기 정책을 보완한 뒤 운영 환경의 보안·접근성·동시성 검증 범위를 넓힙니다."
+    ],
+    "sources": [
+      {
+        "label": "프로젝트 README와 실행·검수 범위",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/README.md"
+      },
+      {
+        "label": "휴가 처리 실제 소스",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/backend/src/main/java/com/portfolio/ems/LeaveService.java"
+      },
+      {
+        "label": "급여 월 잠금·스냅샷 ADR",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/adr/0110-demo-payroll-month-snapshots.md"
+      },
+      {
+        "label": "AI 명시 적용·결과 수명 ADR",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/adr/0206-ai-explicit-execution-and-ephemeral-results.md"
+      },
+      {
+        "label": "AI 협업 역할과 수정·검수 기록",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/ai-workflow.md"
+      },
+      {
+        "label": "보안 점검과 공개 준비 실행 근거",
+        "url": "https://github.com/MaoEmong/ems-ai-team-portfolio/blob/master/docs/security/README.md"
+      }
+    ]
+  },
+  "commerce": {
+    "base": {
+      "summary": "주문·결제·환불·반품의 경합과 결과 불명 복구를 다룬 단일 판매자 쇼핑몰입니다.",
+      "overview": "상품을 고르는 고객 화면부터 재고·배송·반품을 처리하는 관리자 화면까지 연결했습니다. 백엔드는 모듈형 단일 앱으로 구성하고 중복 요청, 늦은 결제 승인, 환불 실패처럼 정상 흐름 밖의 상태를 추적합니다."
+    },
+    "facts": [
+      {
+        "label": "서비스 범위",
+        "value": "의류·잡화 단일 판매자 쇼핑몰 / 고객·관리자"
+      },
+      {
+        "label": "백엔드 구조",
+        "value": "Spring Boot 모듈형 단일 앱 + PostgreSQL"
+      },
+      {
+        "label": "정합성 중심 흐름",
+        "value": "SKU 재고 예약·멱등 요청·결제 복구·운영 확인 큐"
+      },
+      {
+        "label": "외부 연동 상태",
+        "value": "Fake PG / local·test AI 대역, 실모델 어댑터 미구현"
+      }
+    ],
+    "problem": [
+      "쇼핑몰의 어려움은 결제 성공 화면보다 성공 여부를 모르는 순간에 드러납니다. 사용자가 주문 버튼을 누른 뒤 응답을 받지 못해 다시 눌렀을 때 주문이 늘어나거나, 취소된 주문에 늦은 결제 승인이 도착해 재고가 다시 차감될 수 있습니다. 이 프로젝트는 상품 탐색부터 반품까지 구현하면서 요청과 업무 상태를 분리하고, 불확실한 결과를 다시 확인하는 복구 경로를 핵심으로 다뤘습니다.",
+      "관리자에게도 예외를 처리할 화면이 필요합니다. 환불은 성공했지만 실물 반품은 아직 도착하지 않을 수 있고, 재고를 복원할 시점은 돈의 흐름과 다를 수 있습니다. 따라서 고객 구매 흐름과 운영 확인 큐를 함께 설계했습니다. AI 기능 역시 상품을 임의로 추천·수정하는 권한으로 확장하기보다 기존 검색 조건을 제안하고 승인 전 설명 초안을 만드는 보조 경로로 제한했습니다."
+    ],
+    "architecture": [
+      {
+        "title": "단일 앱 안의 검증 가능한 모듈 경계",
+        "body": "회원·상품·재고·장바구니·주문·결제·AI·운영 기능을 Spring Boot 앱 안의 모듈로 나눴습니다. 다른 모듈은 공개 api 패키지를 통해 호출하고 internal·web에 직접 의존하지 않습니다. ArchUnit은 이 경계와 AI의 CommandService 의존 금지, Fake PG 어댑터 직접 참조 금지를 검사합니다."
+      },
+      {
+        "title": "주문과 결제 시도의 분리",
+        "body": "주문 생성 시 SKU 재고를 15분 예약하고 결제 확정·만료·취소에 따라 확정하거나 해제합니다. 결제는 주문 상태와 별도의 시도·복구 상태로 관리합니다. 환불 의무와 환불 시도도 분리해 외부 호출 전에 기록을 커밋하고 트랜잭션 밖에서 PG를 호출합니다."
+      },
+      {
+        "title": "DB 권한과 검색용 읽기 경로",
+        "body": "업무 app과 fakepg 스키마에 런타임·마이그레이션 계정을 각각 분리했습니다. 일반 실행 계정은 DML만 허용하고 서로의 스키마 접근을 차단합니다. 상품 검색은 같은 트랜잭션에서 갱신한 정규화 projection과 재고 읽기 전용 뷰를 이용해 일반 검색과 AI 검색이 같은 조건을 사용합니다."
+      },
+      {
+        "title": "검증된 조건으로만 이어지는 AI",
+        "body": "LlmClient 포트가 필터 추출·답변·상품 초안을 나누어 반환하고 서버가 JSON·허용값·카드 참조를 검증합니다. 답변이 검증에 실패하면 상품 카드만 보여 줍니다. 기본 설정은 disabled, local·test는 fake를 사용할 수 있으며 실제 모델 어댑터는 아직 없습니다."
+      }
+    ],
+    "journey": [
+      {
+        "title": "1. 조건 탐색과 SKU 선택",
+        "body": "카테고리·검색어·가격·색상·크기·재고 조건으로 상품을 좁힙니다. 상세 화면에서는 실제 존재하는 색상·크기 조합만 선택할 수 있고 품절 조합을 차단합니다. 자연어 탐색도 같은 검색 규칙을 이용합니다."
+      },
+      {
+        "title": "2. 장바구니에서 재고 예약으로",
+        "body": "장바구니는 구매 불가 사유를 표시하고 선택한 항목으로 주문서를 만듭니다. 주문 생성은 멱등 키와 함께 요청하며 서버가 SKU별 재고를 예약합니다. 결과를 받지 못한 요청은 원본 본문과 키를 보관해 같은 요청으로 재확인합니다."
+      },
+      {
+        "title": "3. 결제·취소·배송의 상태 전이",
+        "body": "Fake PG의 승인·거절·결과 불명 경로를 처리합니다. 결제 전 취소는 예약을 해제하고 결제 후 출고 전 취소는 환불 의무를 생성합니다. 관리자의 출고와 고객의 취소가 겹치면 주문 행 잠금으로 전이를 조정합니다."
+      },
+      {
+        "title": "4. 반품과 운영 예외의 마무리",
+        "body": "배송 완료 후 고객이 반품을 신청하면 관리자가 승인·거절하고 실물 수령을 확인합니다. 환불과 재고 복원은 각각 기록합니다. 자동 복구 횟수를 넘거나 대사 결과가 어긋난 결제·환불은 운영 확인 큐에서 재조회·수동 처리합니다."
+      },
+      {
+        "title": "5. 사람이 승인하는 상품 설명",
+        "body": "관리자는 상품 정보로 생성한 설명 초안을 검토·수정한 뒤 승인합니다. 승인 전에는 실제 상품에 반영되지 않으며 기존 상품 쓰기 경로로 적용해 별도 AI 변경 통로가 생기지 않도록 구성했습니다."
+      }
+    ],
+    "engineering": [
+      {
+        "title": "응답 유실을 중복 주문으로 만들지 않기",
+        "problem": "네트워크 오류는 서버의 처리 실패와 같지 않습니다. 새 키로 주문·취소를 재전송하면 이미 끝난 처리가 다시 실행될 수 있고, 브라우저 새로고침은 요청의 맥락을 잃게 만듭니다.",
+        "choice": "쓰기 요청은 Idempotency-Key와 본문을 묶어 관리합니다. 같은 키·본문은 기존 결과를 돌려주고 다른 본문은 거부합니다. 프런트는 회원별 sessionStorage에 결과 불명 요청을 보관하고 같은 키로 확인하며 로그아웃 경계에서도 미확인 작업을 알립니다.",
+        "tradeoff": "클라이언트와 서버가 요청 보관·재확인 수명까지 함께 관리해야 합니다. 재시도 버튼만 추가하는 방식보다 복잡하지만 사용자가 실패 여부를 추측해 새 주문을 만드는 상황을 줄이는 방향입니다.",
+        "source": {
+          "label": "설계 요약 — 멱등성과 결과 불명 복구",
+          "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/docs/DESIGN.md"
+        }
+      },
+      {
+        "title": "늦은 승인과 복구 작업의 경합 제어",
+        "problem": "요청 처리 중 lease가 만료되어 복구 작업이 같은 결제를 가져가면 오래된 작업의 응답이 최신 상태를 덮을 수 있습니다. 주문 만료 뒤 결제가 승인되는 상황도 별도로 정리해야 합니다.",
+        "choice": "결제 시도에 상태·lease·fencing token을 저장합니다. 복구 작업이 claim할 때 토큰을 올리고 결과 반영에 기대 상태·토큰 조건을 사용합니다. 늦은 승인은 해당 시도에 대한 승인 취소·정리 환불로 연결하고 이미 만료·취소된 주문의 예약·재고는 되돌리지 않습니다.",
+        "tradeoff": "결제 시도와 주문·환불·대사의 상태가 늘어나며 마지막 자동 복구 실패를 처리할 운영 큐가 필요합니다. 실제 PG 장애·콜백까지 검증한 결과는 아니며 현재는 같은 DB의 Fake PG로 구조를 재현합니다.",
+        "source": {
+          "label": "PaymentAttemptRepository — claim·상태·토큰 조건",
+          "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/backend/src/main/java/com/shop/payment/internal/PaymentAttemptRepository.java"
+        }
+      },
+      {
+        "title": "AI가 업무 쓰기 권한을 우회하지 않도록",
+        "problem": "생성형 모델의 필터·설명은 잘못된 값이나 근거 없는 주장을 포함할 수 있습니다. AI 모듈에서 주문·상품 쓰기 서비스를 직접 호출하면 검증·승인 흐름을 우회할 여지가 생깁니다.",
+        "choice": "AI 모듈의 CommandService 의존을 ArchUnit으로 금지하고, 필터는 기존 검색 경로로, 상품 초안은 사람 승인 뒤 기존 쓰기 경로로 보냅니다. LlmClient는 신뢰하지 않는 JSON 문자열을 반환하며 서버 검증을 통과하지 못한 답변은 노출하지 않습니다.",
+        "tradeoff": "검증을 위해 기능을 좁히고 모델을 교체할 포트를 먼저 정의했습니다. 실제 모델 어댑터가 없으므로 전송 정책·호출 상한의 설계가 있어도 실제 모델의 품질·비용·지연을 입증하지는 않습니다.",
+        "source": {
+          "label": "ArchitectureTest — 모듈·AI 쓰기 의존 검사",
+          "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/backend/src/test/java/com/shop/ArchitectureTest.java"
+        }
+      }
+    ],
+    "contribution": [
+      "본인은 개인 프로젝트의 요구사항과 작업 방향을 정하고, 픽셀 오피스에서 Claude Code·Codex를 활용한 구현·검증을 관리했습니다. 고객이 구매를 완료하는 흐름뿐 아니라 관리자가 실패·예외를 정리하는 흐름까지 프로젝트 범위에 포함했습니다. 공개 설명에서는 개발자의 요구·선택과 AI가 작성한 구현 결과를 구분합니다.",
+      "AI 코딩 도구는 화면 흐름·ERD·API·상태 전이 초안, 백엔드·프런트 구현, 테스트와 리뷰에 활용했습니다. 테스트 실행·실제 화면 확인·독립 리뷰로 결과를 대조하고 지적을 수정하는 과정이 README에 정리되어 있습니다. 시연용 상품 이미지 생성에 쓴 AI와 제품 안의 자연어 탐색 대역도 별개로 표시했습니다."
+    ],
+    "validation": [
+      {
+        "label": "프런트 공개본 검사",
+        "result": "npm ci·typecheck·Vitest·build 통과, Vitest 21개 파일 319개 테스트가 공개 README에 기록되어 있습니다.",
+        "scope": "공개본 점검 당시 결과이며 이번 포트폴리오 작성 과정에서 다시 실행한 결과가 아닙니다.",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/README.md"
+      },
+      {
+        "label": "백엔드 컴파일·단위 검사",
+        "result": "compileJava·compileTestJava 및 컨테이너 불필요 단위 검사 40개 통과가 기록되어 있습니다.",
+        "scope": "ArchitectureTest·AiConfigTest·QueryMaskerBoundaryTest 범위입니다. Testcontainers 통합 검사 33개 클래스는 공개본에서 재실행하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/README.md"
+      },
+      {
+        "label": "빈 DB 기동 확인",
+        "result": "PostgreSQL 17.11 새 DB에서 readiness UP, Flyway app 12/12·fakepg 2/2, 상품 12개와 최상위 카테고리 5개 조회가 기록되어 있습니다.",
+        "scope": "docker run·java -jar로 같은 구성을 재현했습니다. Windows PowerShell 실행 스크립트 전체 경로의 재실행 결과는 아닙니다.",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/README.md"
+      }
+    ],
+    "limitations": [
+      "실제 PG·웹훅을 연결하지 않았습니다. 결제·환불은 같은 DB의 별도 스키마와 계정으로 구성한 Fake PG입니다.",
+      "제품 AI는 local·test 대역으로 시연하며 기본은 비활성입니다. 실모델 어댑터·품질·비용·지연 평가와 서버 통합 검사 공개본 재실행이 남아 있습니다.",
+      "외부 배포·운영 트래픽·부하 측정 이력은 없습니다. 제공 실행 스크립트는 Windows·PowerShell 7을 전제로 합니다.",
+      "상품 이미지는 AI로 만든 시연 예시입니다. 공개본 Flyway SQL은 빈 DB 초기화 기준이며 다른 경로의 기존 DB 업그레이드 경로로 보장하지 않습니다."
+    ],
+    "nextSteps": [
+      "공개본의 전체 Testcontainers 통합 검사를 재실행하고 결제·환불 경합과 DB 역할 분리를 동일 구성에서 확인합니다.",
+      "실제 PG 어댑터·콜백을 별도로 구현해 지연 승인·재전송·대사 시나리오를 검증하고, 실모델 연결은 품질·안전·비용 평가와 함께 진행합니다."
+    ],
+    "sources": [
+      {
+        "label": "프로젝트 README와 공개본 검증 범위",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/README.md"
+      },
+      {
+        "label": "주문·결제·검색·AI 설계 요약",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/docs/DESIGN.md"
+      },
+      {
+        "label": "결제 시도와 복구 조건 실제 소스",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/backend/src/main/java/com/shop/payment/internal/PaymentAttemptRepository.java"
+      },
+      {
+        "label": "ArchUnit 모듈 의존 규칙",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/backend/src/test/java/com/shop/ArchitectureTest.java"
+      },
+      {
+        "label": "LlmClient — 대역·비활성 및 실모델 미구현",
+        "url": "https://github.com/MaoEmong/commerce-ai-portfolio/blob/main/backend/src/main/java/com/shop/ai/internal/LlmClient.java"
+      }
+    ]
+  },
+  "support-desk": {
+    "base": {
+      "summary": "테넌트별 문의를 분리하고 AI 답변·상담원 이관·승인을 연결한 고객지원 웹 서비스입니다.",
+      "overview": "가상 게임사 PixelForge와 이메일 SaaS MailPulse가 같은 코드에서 각자 브랜드·지식베이스·처리 정책을 사용합니다. 고객에게 답을 보내기 전 정책을 판단하고, 비동기 작업·권한·공개 응답 구조를 통해 중복 답변과 내부 정보 노출을 제어합니다."
+    },
+    "facts": [
+      {
+        "label": "대상과 역할",
+        "value": "고객·상담원·테넌트 관리자·플랫폼 관리자"
+      },
+      {
+        "label": "테넌트 구성",
+        "value": "PixelForge·MailPulse / 브랜딩·KB·정책을 설정으로 분리"
+      },
+      {
+        "label": "처리 채널",
+        "value": "게시판 DB 작업 큐 + 챗봇 SSE"
+      },
+      {
+        "label": "제품 AI·검색",
+        "value": "Mock / Claude 제공자 구조, 현재 검색은 한글 bigram BM25"
+      }
+    ],
+    "problem": [
+      "고객지원 자동화는 답변 문장을 생성하는 것만으로 완성되지 않습니다. 환불·계정 해킹·제재처럼 사람이 판단해야 할 문의를 구분해야 하고, 같은 서비스에 입점한 다른 고객사의 문의나 내부 초안이 새어나가지 않아야 합니다. Support Desk는 자동 답변과 상담원 업무를 하나의 흐름으로 연결하되 고객사·역할·공개 정보의 경계를 서버에서 유지하는 것을 목표로 했습니다.",
+      "게시판과 챗봇은 처리 특성도 다릅니다. 게시판은 접수 후 작업자가 비동기로 답할 수 있지만, 챗봇은 사용자가 스트림을 기다립니다. 그렇다고 분류가 끝나기 전에 문장을 흘려보내면 나중에 이관이 결정되어도 민감한 내용은 이미 보인 뒤입니다. 두 채널이 같은 분류·검색·정책을 사용하면서 저장·재시도·노출 시점을 각 채널에 맞게 다루도록 구성했습니다."
+    ],
+    "architecture": [
+      {
+        "title": "공통 계약을 공유하는 모노레포",
+        "body": "Next.js의 화면·Route Handlers와 contracts·db·queue·ai 패키지를 pnpm workspace로 나눕니다. Zod 계약을 클라이언트와 서버가 공유하고 PostgreSQL·Drizzle이 문의·대화·작업·AI 결과·초안을 저장합니다. pgvector 이미지를 사용하지만 현재 KB 검색 구현은 한글 bigram BM25입니다."
+      },
+      {
+        "title": "접수와 작업 등록을 하나의 트랜잭션으로",
+        "body": "게시판 문의는 고객 메시지 저장과 ai_jobs enqueue를 같은 트랜잭션으로 처리합니다. 별도 워커가 lease로 작업을 가져가며 재시도·멱등 키를 관리합니다. AI 패키지는 DB를 직접 쓰지 않고 결과를 반환하며, 완료·공개 답변·자동 응답 횟수 갱신은 서버가 원자적으로 저장합니다."
+      },
+      {
+        "title": "정책 판단 뒤에만 열리는 답변 스트림",
+        "body": "챗봇은 분류 → 테넌트 KB 검색 → 정책 판단을 먼저 수행합니다. 금지 카테고리·낮은 신뢰도·승인 모드는 이관하거나 초안으로 남깁니다. 공개 SSE는 분류·근거·토큰·이관·완료·오류의 허용 필드만 보내고 내부 분석과 신뢰도 상세는 서버 기록에 남깁니다."
+      },
+      {
+        "title": "테넌트 가드와 역할별 DTO",
+        "body": "서버가 경로 slug를 테넌트로 해석한 뒤 세션 소속과 일치하는지 검사합니다. 저장소 조회에도 tenantId를 전달하며 고객 응답은 공개 메시지와 허용 필드만 구성합니다. 내부 메모·미승인 초안·AI 분석은 고객 DTO에 없고 플랫폼 관리자는 문의 본문 대신 집계를 봅니다."
+      }
+    ],
+    "journey": [
+      {
+        "title": "1. 고객사 포털에서 문의 시작",
+        "body": "고객은 테넌트별 브랜드 화면에서 게시판 문의를 등록하거나 챗봇에 질문합니다. 같은 코드이지만 FAQ·분류 기준·챗봇 이름·허용 링크는 고객사 설정을 읽어 적용합니다."
+      },
+      {
+        "title": "2. 분류하고 근거를 찾기",
+        "body": "문의의 유형·긴급도·감정을 분류하고 해당 테넌트 KB만 검색합니다. 분류와 검색 결과를 종합한 신뢰도, 금지 카테고리와 승인 모드를 확인해 자동 응답 여부를 정합니다. AI에는 환불·제재 해제 같은 업무 실행 권한이 없습니다."
+      },
+      {
+        "title": "3. 자동 답변 또는 상담원 이관",
+        "body": "허용된 문의에는 참고 문서를 붙여 답하고 티켓 자동 답변을 최대 한 번으로 제한합니다. 이관되면 고객에게 안내하고 상담원에게 초안을 제공합니다. 챗봇 대화는 문의글로 전환해 같은 지원 흐름을 이어갈 수 있습니다."
+      },
+      {
+        "title": "4. 상담원의 검토·승인",
+        "body": "상담원은 분류·긴급도·감정·이관 사유로 큐를 살펴보고 초안을 수정·승인·반려합니다. 동시에 같은 초안을 승인하면 버전 조건으로 한쪽에 409를 반환합니다. 고객은 4초 폴링으로 티켓 처리 상태를 확인합니다."
+      },
+      {
+        "title": "5. 운영 정책과 지표 조정",
+        "body": "테넌트 관리자는 KB·임계값·금지 카테고리·승인 모드를 설정합니다. 자동해결률은 생성 티켓 중 AI 답변 뒤 고객이 해결을 확인한 티켓을 집계해 계산하고, 이관률과 카테고리 분포도 메시지 수 대신 티켓 기준으로 보여 줍니다."
+      }
+    ],
+    "engineering": [
+      {
+        "title": "클라이언트가 고른 tenantId를 신뢰하지 않기",
+        "problem": "멀티테넌트 서비스에서는 URL이나 요청 본문을 바꾸어 다른 고객사의 문의에 접근하려는 요청을 막아야 합니다. 화면에서 테넌트를 나누는 것만으로는 API를 보호할 수 없습니다.",
+        "choice": "공통 가드가 slug로 테넌트를 해석하고 활성 상태·세션 소속을 대조합니다. 변경 요청은 Origin과 CSRF를 검사하고, 저장소에는 서버가 확정한 tenantId만 전달합니다. 타인·타테넌트 리소스는 조회 시 존재를 숨기는 404 정책을 적용하고 역할 부족의 403과 구분합니다.",
+        "tradeoff": "테넌트 간 세션 이동을 허용하지 않고 각 API·저장소에 범위를 명시해야 합니다. 테넌트 세션 불일치는 공통 가드에서 미인증으로 처리되므로 리소스 404 정책과 인증 오류를 같은 것으로 설명하지 않습니다.",
+        "source": {
+          "label": "tenant-guard — 경로·세션·CSRF 검사",
+          "url": "https://github.com/MaoEmong/support-desk/blob/main/apps/web/src/server/tenant-guard.ts"
+        }
+      },
+      {
+        "title": "재시도해도 한 번만 공개되는 답변",
+        "problem": "워커가 결과를 저장하기 전 멈추거나 lease 만료 뒤 재실행되면 같은 문의에 답변·초안이 중복될 수 있습니다. 처리 중 상담원이 이미 답했는데 늦은 AI 결과가 공개되는 문제도 있습니다.",
+        "choice": "메시지·pipelineVersion을 포함한 멱등 키와 sourceJobId·jobId unique 제약을 사용합니다. 워커는 leaseToken·만료를 확인하고 결과 저장 시 티켓 버전·상태·autoReplyCount를 다시 검사합니다. 자동 답변 기록과 카운트 증가는 같은 트랜잭션으로 확정합니다.",
+        "tradeoff": "작업 완료와 고객 노출을 함께 관리하므로 상태·제약·복구 코드가 필요합니다. 처리량 수치보다 중복과 오래된 결과를 차단하는 계약을 우선했으며 운영 부하에서의 검증은 남아 있습니다.",
+        "source": {
+          "label": "API 계약 — 작업·상태·원자성",
+          "url": "https://github.com/MaoEmong/support-desk/blob/main/docs/api-contract.md"
+        }
+      },
+      {
+        "title": "빠른 스트리밍보다 먼저 끝내야 할 정책 판단",
+        "problem": "챗봇이 생성 즉시 token을 보내면 금지 문의나 승인 모드임을 뒤늦게 알아도 이미 보낸 문장을 회수할 수 없습니다. 내부 검색 점수·신뢰도와 상담원용 분석도 공개 스트림에 섞일 수 있습니다.",
+        "choice": "공통 prepare 단계에서 분류·KB 소속 검증·정책을 먼저 완료합니다. 자동 응답일 때만 안전 버퍼를 거쳐 token을 전송하고, 공개 SSE 변환에서 허용 필드만 내보냅니다. 승인 모드에서는 초안 대신 상담원 확인 안내를 고객에게 보냅니다.",
+        "tradeoff": "첫 token 전까지 분류·검색 대기가 생깁니다. 출력 정제·의심 입력 이관·허용 링크 정책은 방어 수단이며 실제 모델의 모든 인젝션이나 부정확한 답변을 막는다는 의미는 아닙니다.",
+        "source": {
+          "label": "AI pipeline — prepare와 정책별 stream 분기",
+          "url": "https://github.com/MaoEmong/support-desk/blob/main/packages/ai/src/pipeline.ts"
+        }
+      }
+    ],
+    "contribution": [
+      "본인은 서로 다른 고객사가 같은 서비스에서 문의를 처리한다는 요구와 고객·상담원·관리자의 작업 방향을 정했습니다. 개발은 Claude Code·Codex가 역할을 나눈 AI 협업 방식으로 진행했습니다. 소스 전체를 수작업으로 단독 구현한 프로젝트로 소개하지 않고 요구·구조·검수 근거를 연결해 설명합니다.",
+      "포트폴리오의 핵심은 AI가 답변하는 장면뿐 아니라 자동 답변을 멈추는 정책, 상담원의 승인, 고객에게 내보낼 정보와 내부 기록의 구분입니다. 공개 README·API 계약·핵심 소스·실행 기록을 대조해 이 경계가 어떻게 구현되어 있는지 설명하고, 과거 통과 결과와 데모 계정 변경 뒤 미실행 범위를 구분했습니다."
+    ],
+    "validation": [
+      {
+        "label": "화면·채널 통합 E2E",
+        "result": "실제 web·AI 워커 Mock·전용 DB에서 desktop 1280px·mobile 375px 61건 통과, 실패·skip·flaky 0이 기록되어 있습니다.",
+        "scope": "데모 계정을 @pf.test·demo1234로 바꾸기 전 결과입니다. 변경된 계정 상수 상태로는 재실행하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/docs/verification/stage2/e2e/measurements.md"
+      },
+      {
+        "label": "백엔드·DB 검사",
+        "result": "실제 PostgreSQL 포함 Vitest 23개 파일 271 pass와 타입·lint·build, 빈 DB 마이그레이션·시드 확인 기록이 있습니다.",
+        "scope": "공개 문서의 실행별 검증 범위입니다. 이번 소개 작성에서 제품 테스트를 재실행한 결과는 아닙니다.",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/docs/backend-verification.md"
+      },
+      {
+        "label": "AI·접근성 확인",
+        "result": "AI 패키지 137/137, 평가 CLI 안전 위반 0·demo 14/14, axe serious·critical 위반 0이 공개 README에 기록되어 있습니다.",
+        "scope": "Mock의 결정적 동작과 검사 대상 화면 범위입니다. Claude 실호출·실모델 품질과 Lighthouse는 검증하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/README.md"
+      }
+    ],
+    "limitations": [
+      "AI 호출·평가는 Mock만 사용했습니다. Claude 제공자 코드가 있어도 실제 호출·품질·비용·지연을 확인한 것은 아닙니다.",
+      "61건 E2E는 데모 계정 변경 전 결과이며 원클릭 데모 로그인도 실행 미확인입니다. 현재 계정과 새 DB 기준의 재검증이 필요합니다.",
+      "촬영에 사용한 기존 DB의 분류 설정이 초기 버전이라 티켓 FAQ가 이관된 화면이 포함되어 있습니다. 새 시드 기본값·과거 E2E의 FAQ 경로와 구분해야 합니다.",
+      "운영 비밀 관리·백업·부하 검증, 비밀번호 변경·열린 대화 목록, 고객 목록 N+1 개선 등이 남아 있습니다. 테넌트 셀프 가입·요금제는 포함하지 않습니다."
+    ],
+    "nextSteps": [
+      "현재 데모 계정과 새 DB로 E2E·시연 시나리오를 재실행하고 기존 분류 설정을 안전하게 전환할 마이그레이션 정책을 정리합니다.",
+      "실제 Claude 호출을 별도 평가셋으로 검증한 뒤 운영 관측·백업·부하 시험을 추가하고 고객 목록 조회와 계정 관리 흐름을 보완합니다."
+    ],
+    "sources": [
+      {
+        "label": "프로젝트 README와 알려진 제한",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/README.md"
+      },
+      {
+        "label": "API·SSE·작업 원자성 계약",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/docs/api-contract.md"
+      },
+      {
+        "label": "테넌트·세션 공통 가드",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/apps/web/src/server/tenant-guard.ts"
+      },
+      {
+        "label": "분류·검색·정책·생성 파이프라인",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/packages/ai/src/pipeline.ts"
+      },
+      {
+        "label": "백엔드 실행별 검증 기록",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/docs/backend-verification.md"
+      },
+      {
+        "label": "E2E 환경과 실측 기록",
+        "url": "https://github.com/MaoEmong/support-desk/blob/main/docs/verification/stage2/e2e/measurements.md"
+      }
+    ]
+  }
+}

@@ -7,28 +7,28 @@
   "pixel-office": {
     "images": [
       {
-        "file": "pixel-office-1.image",
-        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/01-hero.jpg",
-        "alt": "픽셀 오피스 소개 화면 1",
-        "path": "/assets/images/pixel-office-1.webp",
-        "width": 1600,
-        "height": 860
+        "file": "21-running-inspection.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/0.2.5/21-running-inspection.png",
+        "alt": "픽셀 오피스 0.2.5 · 팀의 작업 상태와 결과 대기",
+        "path": "/assets/images/pixel-office-0.2.5-1.webp",
+        "width": 1800,
+        "height": 974
       },
       {
-        "file": "pixel-office-2.image",
-        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/03-conversation.jpg",
-        "alt": "픽셀 오피스 소개 화면 2",
-        "path": "/assets/images/pixel-office-2.webp",
-        "width": 1600,
-        "height": 860
+        "file": "04-result-wait.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/0.2.5/04-result-wait.png",
+        "alt": "픽셀 오피스 0.2.5 · 필요한 결과와 다음 행동",
+        "path": "/assets/images/pixel-office-0.2.5-2.webp",
+        "width": 1800,
+        "height": 974
       },
       {
-        "file": "pixel-office-3.image",
-        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/08-stage-history.jpg",
-        "alt": "픽셀 오피스 소개 화면 3",
-        "path": "/assets/images/pixel-office-3.webp",
-        "width": 1600,
-        "height": 860
+        "file": "10-completion-result.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/0.2.5/10-completion-result.png",
+        "alt": "픽셀 오피스 0.2.5 · 완료 보고와 바뀐 파일",
+        "path": "/assets/images/pixel-office-0.2.5-3.webp",
+        "width": 1800,
+        "height": 974
       }
     ],
     "readme": "https://github.com/MaoEmong/pixel-office/blob/main/README.md",

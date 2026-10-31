@@ -1,134 +1,72 @@
 {
   "ems": {
     "file": "ems-portfolio.pdf",
-    "pages": 3,
-    "bytes": 969514,
-    "github": "https://github.com/MaoEmong/ems-ai-team-portfolio"
-  },
-  "pixel-office": {
-    "file": "pixel-office-portfolio.pdf",
-    "pages": 6,
-    "bytes": 1116393,
-    "github": "https://github.com/MaoEmong/pixel-office"
-  },
-  "ieum": {
-    "file": "ieum-portfolio.pdf",
-    "pages": 3,
-    "bytes": 754815,
-    "github": "https://github.com/MaoEmong/ieum-portfolio-clean"
+    "pages": 8,
+    "bytes": 1289527,
+    "github": "https://github.com/MaoEmong/ems-ai-team-portfolio",
+    "updated": "2026-11-01"
   },
   "commerce": {
     "file": "commerce-portfolio.pdf",
-    "pages": 3,
-    "bytes": 1241551,
-    "github": "https://github.com/MaoEmong/commerce-ai-portfolio"
+    "pages": 8,
+    "bytes": 1976722,
+    "github": "https://github.com/MaoEmong/commerce-ai-portfolio",
+    "updated": "2026-11-01"
   },
   "support-desk": {
     "file": "support-desk-portfolio.pdf",
-    "pages": 3,
-    "bytes": 749700,
-    "github": "https://github.com/MaoEmong/support-desk"
+    "pages": 8,
+    "bytes": 1206912,
+    "github": "https://github.com/MaoEmong/support-desk",
+    "updated": "2026-11-01"
   },
-  "synapse": {
-    "file": "synapse-portfolio.pdf",
-    "pages": 2,
-    "bytes": 84004,
-    "github": "https://github.com/MaoEmong/synapse-team-archive"
+  "ieum": {
+    "file": "ieum-portfolio.pdf",
+    "pages": 8,
+    "bytes": 1085012,
+    "github": "https://github.com/MaoEmong/ieum-portfolio-clean",
+    "updated": "2026-11-01"
   },
-  "travel": {
-    "file": "travel-portfolio.pdf",
-    "pages": 3,
-    "bytes": 1996442,
-    "github": "https://github.com/MaoEmong/travel_platform"
-  },
-  "haru": {
-    "file": "haru-portfolio.pdf",
-    "pages": 3,
-    "bytes": 636551,
-    "github": "https://github.com/MaoEmong/haru-record"
+  "pixel-office": {
+    "file": "pixel-office-portfolio.pdf",
+    "pages": 8,
+    "bytes": 1754217,
+    "github": "https://github.com/MaoEmong/pixel-office",
+    "updated": "2026-11-01"
   },
   "video-translator": {
     "file": "video-translator-portfolio.pdf",
-    "pages": 2,
-    "bytes": 78271,
-    "github": "https://github.com/MaoEmong/video-translator"
+    "pages": 7,
+    "bytes": 151553,
+    "github": "https://github.com/MaoEmong/video-translator",
+    "updated": "2026-11-01"
   },
-  "rag-mcp": {
-    "file": "rag-mcp-portfolio.pdf",
-    "pages": 2,
-    "bytes": 78463,
-    "github": "https://github.com/MaoEmong/RAG-LangChain-MCP"
+  "synapse": {
+    "file": "synapse-portfolio.pdf",
+    "pages": 7,
+    "bytes": 156803,
+    "github": "https://github.com/MaoEmong/synapse-team-archive",
+    "updated": "2026-11-01"
   },
-  "rag-advanced": {
-    "file": "rag-advanced-portfolio.pdf",
-    "pages": 2,
-    "bytes": 75524,
-    "github": "https://github.com/MaoEmong/LangChain-RAG-Advanced"
+  "travel": {
+    "file": "travel-portfolio.pdf",
+    "pages": 8,
+    "bytes": 2357705,
+    "github": "https://github.com/MaoEmong/travel_platform",
+    "updated": "2026-11-01"
   },
   "langgraph-rag": {
     "file": "langgraph-rag-portfolio.pdf",
-    "pages": 2,
-    "bytes": 74842,
-    "github": "https://github.com/MaoEmong/LangGraph-Rag"
+    "pages": 7,
+    "bytes": 153215,
+    "github": "https://github.com/MaoEmong/LangGraph-Rag",
+    "updated": "2026-11-01"
   },
-  "apple-server": {
-    "file": "apple-server-portfolio.pdf",
-    "pages": 2,
-    "bytes": 74715,
-    "github": "https://github.com/MaoEmong/AppleGame_Server_Spring"
-  },
-  "isaac": {
-    "file": "isaac-portfolio.pdf",
-    "pages": 2,
-    "bytes": 79351,
-    "github": "https://github.com/MaoEmong/imitation_Isaac"
-  },
-  "cult": {
-    "file": "cult-portfolio.pdf",
-    "pages": 3,
-    "bytes": 1320740,
-    "github": "https://github.com/MaoEmong/imitation_CultOfTheLamb"
-  },
-  "simple-rpg": {
-    "file": "simple-rpg-portfolio.pdf",
-    "pages": 3,
-    "bytes": 1350112,
-    "github": "https://github.com/MaoEmong/SimpleRPG"
-  },
-  "platformer": {
-    "file": "platformer-portfolio.pdf",
-    "pages": 2,
-    "bytes": 76372,
-    "github": "https://github.com/MaoEmong/PlatformerGame"
-  },
-  "swordsman": {
-    "file": "swordsman-portfolio.pdf",
-    "pages": 3,
-    "bytes": 464751,
-    "github": "https://github.com/MaoEmong/raisingSwordman"
-  },
-  "neon-slider": {
-    "file": "neon-slider-portfolio.pdf",
-    "pages": 3,
-    "bytes": 2650556,
-    "github": "https://github.com/MaoEmong/NeonSlider"
-  },
-  "tetris": {
-    "file": "tetris-portfolio.pdf",
-    "pages": 3,
-    "bytes": 355348,
-    "github": "https://github.com/MaoEmong/Unity-Tetris"
-  },
-  "apple-game": {
-    "file": "apple-game-portfolio.pdf",
-    "pages": 3,
-    "bytes": 661549,
-    "github": "https://github.com/MaoEmong/AppleGame_Unity"
-  },
-  "suika": {
-    "file": "suika-portfolio.pdf",
-    "pages": 3,
-    "bytes": 224796,
-    "github": "https://github.com/MaoEmong/SuikaGame_Unity"
+  "haru": {
+    "file": "haru-portfolio.pdf",
+    "pages": 8,
+    "bytes": 1345349,
+    "github": "https://github.com/MaoEmong/haru-record",
+    "updated": "2026-11-01"
   }
 }

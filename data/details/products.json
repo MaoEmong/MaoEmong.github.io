@@ -1,0 +1,535 @@
+{
+  "pixel-office": {
+    "base": {
+      "summary": "Claude Code·Codex·Antigravity에 일을 나누고, 결과 대기·실행 허가·파일 변경과 복구를 관리하는 Windows 앱입니다.",
+      "overview": "부장 AI에게 목표와 완료 기준을 전달하면 팀을 구성하고 작업을 배정합니다. 픽셀 사무실에서 담당자의 실행·결과 대기·질문 상태를 읽고, 대화·완료 보고·바뀐 파일을 같은 흐름으로 확인합니다.",
+      "features": [
+        [
+          "AI 팀과 결과 대기",
+          "담당자 사이의 대기 상대·필요한 결과·다음 행동을 표시하며, 결과가 모두 모이면 원래 대화에 재개 안내를 전달합니다."
+        ],
+        [
+          "질문·허가와 완료 보고",
+          "내 책상에서 실제 실행 내용을 확인하고 결정합니다. 답변·지시 접수·명령 실행·검사 통과·업무 완료를 구분합니다."
+        ],
+        [
+          "파일·문서와 복구",
+          "Markdown·텍스트 편집, 외부 변경 충돌 안내, 별도 로컬 Git 저장 지점과 확인 후 파일 복원을 제공합니다."
+        ],
+        [
+          "사용 한도와 작업 재개",
+          "기존 대화·업무를 보존하고 같은 AI로 재확인하거나 다른 AI에 진행 요약을 넘겨 이어갑니다."
+        ]
+      ],
+      "decisions": [
+        [
+          "대기와 완료의 상태 분리",
+          "결과가 도착하거나 답변이 끝나도 업무 완료로 추정하지 않고, 명시적인 완료 보고와 실행 조건을 확인합니다."
+        ],
+        [
+          "프로젝트 기록과 분리한 복구",
+          "원래 Git 기록을 바꾸지 않는 로컬 저장 지점을 사용하고, 복원 대상 확인과 현재 파일 보관을 거쳐 되돌립니다."
+        ]
+      ],
+      "role": "제품 목표와 실제 사용 중의 문제·기대 동작을 정하고, AI 지원으로 구현·검증·Windows 배포를 진행했습니다.",
+      "verification": "0.2.5 공개 검증 문서에는 내부 프로그램 1,655개·PC 앱 996개 통과와 별도 Windows 패키지 검사 결과가 기록되어 있습니다. 이번 소개 작성 중 앱·AI 검사를 재실행하지 않았습니다.",
+      "scope": "현재 공개 배포는 Windows x64 0.2.5 시험판입니다. 공개 저장소는 배포·안내 자료이며 앱 원본 개발 코드는 비공개입니다.",
+      "release": "https://github.com/MaoEmong/pixel-office/releases/tag/v0.2.5",
+      "imageNote": "현재 배포된 Windows 0.2.5 앱에 소개용 프로젝트·대화·검사·사용량 예시를 넣어 촬영한 화면입니다. 실제 AI 성과나 계정 상태를 나타내지 않습니다."
+    },
+    "facts": [
+      {
+        "label": "배포",
+        "value": "Windows 10·11 x64 · v0.2.5 시험판"
+      },
+      {
+        "label": "AI 연결",
+        "value": "Claude Code · Codex · Antigravity"
+      },
+      {
+        "label": "핵심 관심사",
+        "value": "작업 상태·의존 관계·승인·재개·파일 복구"
+      },
+      {
+        "label": "공개 범위",
+        "value": "다운로드 ZIP·사용 안내·릴리스 검증 문서"
+      }
+    ],
+    "problem": [
+      "여러 AI 터미널을 함께 사용할 때는 답변을 읽는 일보다 작업의 관계를 파악하는 일이 어려워집니다. 한 담당자가 조용한 이유가 검사 실행인지, 다른 담당자의 결과 대기인지, 사용자 허가인지 알기 어렵고, 대화가 끝났다는 이유만으로 일이 끝났다고 오해할 수 있습니다. 픽셀 오피스는 이 차이를 사무실의 담당자와 진행 기록으로 드러내는 데 초점을 맞춥니다.",
+      "기능을 많이 연결할수록 재연결·사용 한도·파일 충돌 같은 중간 실패도 제품의 일부가 됩니다. 0.2.5에서는 답변 누락, Windows Codex 입력 접수, 결과 대기 업무의 잘못된 완료 처리를 보완했습니다. 핵심은 AI의 성과를 대신 판단하는 것이 아니라, 관측한 상태와 사용자가 확인해야 할 일을 정확히 전달하는 것입니다."
+    ],
+    "architecture": [
+      {
+        "title": "화면과 실행 관리의 연결",
+        "body": "Flutter·Dart PC 화면과 Node.js·TypeScript 실행 관리 구조를 연결해 실제 AI CLI의 대화와 작업을 다룹니다. 부서마다 작업 폴더·부장·사용 AI를 고르고, 팀원→팀장→부장→사용자의 보고 관계로 업무를 정리합니다. AI 설치와 로그인은 각 CLI의 책임입니다."
+      },
+      {
+        "title": "상태와 결과 의존 관계",
+        "body": "사무실은 담당자의 실행 상태와 누구의 어떤 결과를 기다리는지 표시합니다. 결과 도착, 지시 접수와 실제 후속 실행은 서로 다른 사건입니다. 열린 질문·허가·작성 중 입력·사용 한도·실행 중 명령이 있으면 재개 안내 이후에도 실행을 기다릴 수 있습니다."
+      },
+      {
+        "title": "두 위치에 보관하는 기록",
+        "body": "앱 설정·조직·키·파일 저장 기록은 앱 데이터 폴더에, 프로젝트별 대화·작업 파일은 해당 폴더의 .pixel-office에 보관합니다. 재시작은 저장된 작업의 복구를 시도하며, 파일 저장 지점은 별도 로컬 Git 기록으로 관리합니다. 업데이트·백업에는 두 위치를 함께 다뤄야 합니다."
+      },
+      {
+        "title": "사용자가 판단하는 작업 경계",
+        "body": "실행 허가는 내 책상에서 실제 명령과 요청자를 보고 결정합니다. 진행·기록에서는 완료 보고와 바뀐 파일, AI가 보고한 검사 결과를 함께 읽습니다. 실행 기록만으로 검사 통과를 표시하지 않으며, 사용량을 확인할 수 없으면 수치를 미확인으로 남깁니다."
+      }
+    ],
+    "journey": [
+      {
+        "title": "부서를 만들고 작은 목표 정하기",
+        "body": "작업 폴더와 사용할 AI를 고른 뒤 준비 상태를 확인합니다. 부장과 대화하며 원하는 결과와 완료 기준을 정하고, 팀별 의견·작업 계획·완료 단계를 살펴봅니다."
+      },
+      {
+        "title": "담당자와 대기 관계 읽기",
+        "body": "캐릭터를 선택해 현재 업무, 필요한 상대의 결과와 결과 도착 후 할 일을 확인합니다. 부분 결과만 도착했거나 접수 확인이 없으면 남은 대기를 그대로 보여 줍니다."
+      },
+      {
+        "title": "질문과 실제 실행 내용 확인하기",
+        "body": "내 책상에서 질문에 답하고 실행 허가를 결정합니다. AI끼리 주고받는 질문은 상사의 답변 대기로 구분해, 사용자에게 필요한 판단을 모읍니다."
+      },
+      {
+        "title": "파일을 검토하고 문서 수정하기",
+        "body": "요청별 완료 보고·파일 변경·보고된 검사를 읽습니다. 앱 안에서 Markdown·텍스트 문서를 편집하고, AI가 같은 파일을 수정하면 작성 중 글을 유지한 채 비교 안내를 확인합니다."
+      },
+      {
+        "title": "한도나 재시작 이후 이어가기",
+        "body": "사용 한도 소진 시 업무·대화·완료 단계와 파일을 보존합니다. 사용량 재확인 후 기존 AI를 재개하거나 다른 AI를 직접 선택해 요약과 남은 업무를 전달합니다. 단순 목록 선택만으로 작업을 재개하지 않습니다."
+      }
+    ],
+    "engineering": [
+      {
+        "title": "결과 대기를 업무 완료로 바꾸지 않기",
+        "problem": "담당자가 결과를 기다린다는 답변으로 턴을 마치면, 답변 종료와 업무 완료를 같은 사건으로 취급할 위험이 있었습니다.",
+        "choice": "기다리는 상대·필요한 결과·다음 행동을 등록하고 모든 결과가 모일 때 원래 대화에 재개를 안내합니다. 부분·중복 결과와 재연결을 구분하고 명시적인 완료 보고 전까지 미완료 업무를 보호합니다.",
+        "tradeoff": "상태를 보수적으로 유지하므로 사용자가 기록을 더 확인해야 할 수 있습니다. 등록되지 않은 대기 사유를 과거 답변에서 추측하거나, 재개 안내를 성공·허가로 확대하지 않습니다.",
+        "source": {
+          "label": "0.2.5 변경 내역",
+          "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/release/0.2.5/RELEASE-NOTES.md"
+        }
+      },
+      {
+        "title": "전송과 접수를 분리한 Windows 입력 복구",
+        "problem": "한글·기호가 포함된 Codex 지시나 접수 전 재연결에서 입력을 보냈다는 사실만으로 실제 접수를 확정하기 어려웠습니다.",
+        "choice": "입력 준비와 한글·기호 전달을 보완하고, 접수 신호가 빠지면 같은 대화의 저장 기록으로 정확한 접수를 확인합니다. 부장·담당자의 최종 답변도 연결 상태와 구분해 보존합니다.",
+        "tradeoff": "조회 범위 밖의 접수나 이동된 기록은 미확인으로 유지합니다. 검증 문서의 저장 대화 재개 확인은 새 모델 요청 없이 수행한 검사이며 모든 AI 버전·연결 오류 복구를 보장하지 않습니다.",
+        "source": {
+          "label": "0.2.5 배포 검증",
+          "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/release/0.2.5/VERIFICATION.md"
+        }
+      },
+      {
+        "title": "공유 작업 폴더를 되돌리는 절차",
+        "problem": "여러 AI가 같은 폴더를 수정하므로 한 담당자의 작업만 저장했다고 표현하거나, 오래된 대화를 그대로 이어 복원 파일을 다시 바꾸면 위험합니다.",
+        "choice": "프로젝트 전체 파일 상태를 원래 Git과 분리해 저장합니다. 복원·삭제 대상을 먼저 확인하고 겹치는 폴더의 AI를 멈춘 뒤 현재 파일을 안전 보관합니다. 복원 후에는 부장을 재고용해 현재 파일 기준으로 지시합니다.",
+        "tradeoff": "대화·외부 DB·배포 상태는 복구하지 않으며 제외 파일과 저장 이력이 없는 새 파일에도 한계가 있습니다. 저장 중 파일이 바뀌어 완전한 상태를 확인하지 못하면 실패로 표시합니다.",
+        "source": {
+          "label": "파일 저장·되돌리기 범위",
+          "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/PROJECT-TIMELINE-KO.md"
+        }
+      }
+    ],
+    "contribution": [
+      "제품의 중심 요구는 여러 AI의 업무를 나누는 것과 함께, 사용자가 진행 상황을 잘못 해석하지 않도록 만드는 것이었습니다. 실제 사용 중 관측한 문제와 기대 동작을 정하고, 대화·보고·대기·질문·허가가 화면에서 어떻게 구분되어야 하는지를 구체화했습니다. 구현과 검증에는 AI 지원을 활용했으며 모든 코드를 단독 수작업으로 작성했다는 주장은 하지 않습니다.",
+      "포트폴리오에서는 실제 Windows 배포 파일, 안내 화면과 버전별 검증 기록을 연결합니다. 공개 자료로 확인할 수 있는 것은 제품 행동과 배포 기록이며 비공개 원본 코드의 전체 구조를 재검토한 결과는 아닙니다. 최신 0.2.5 기준으로 소개와 다운로드 경로를 맞췄습니다."
+    ],
+    "validation": [
+      {
+        "label": "소스 검사 기록",
+        "result": "내부 프로그램 1,655개 통과·17개 제외, PC 앱 996개 통과·1개 제외로 보고되어 있습니다.",
+        "scope": "0.2.5 배포 문서의 기록입니다. 서로 다른 검사 집합을 합산하지 않았고 이번 소개 작성 중 재실행하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/release/0.2.5/VERIFICATION.md"
+      },
+      {
+        "label": "패키지·복구 확인",
+        "result": "ZIP 구성품 1,943개 목록·해시 대조와 격리된 사용자·데이터·포트의 Windows 시작·종료·복구 10항목 통과를 기록했습니다.",
+        "scope": "같은 PC의 분리 환경이며 실제 AI 모델을 호출하지 않은 검사입니다. 다른 PC 최초 설치와 로그인 검증을 뜻하지 않습니다.",
+        "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/release/0.2.5/VERIFICATION.md"
+      },
+      {
+        "label": "공개 배포 확인",
+        "result": "v0.2.5 prerelease와 Windows x64 ZIP·SHA256 파일이 공개되어 있습니다.",
+        "scope": "릴리스 메타데이터와 문서 확인입니다. 이번 소개 작업에서 ZIP을 실행하거나 파일 해시를 새로 계산하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/pixel-office/releases/tag/v0.2.5"
+      }
+    ],
+    "limitations": [
+      "Windows x64 시험판이며 코드 서명, 다른 PC의 최초 설치·AI 로그인, macOS·Linux 배포는 확인 범위 밖입니다.",
+      "소개 화면은 실제 앱의 예시 데이터이며 실제 AI 작업 성과·검사 성공·사용량을 증명하지 않습니다.",
+      "파일 복구는 저장된 로컬 파일에 한정됩니다. 대화·외부 DB·웹사이트·온라인 전송과 저장 전 입력까지 되돌리지 않습니다.",
+      "원본 개발 코드는 비공개입니다. 모든 연결 오류·CLI 버전·외부 명령의 성공을 보장하지 않습니다."
+    ],
+    "nextSteps": [
+      "다른 PC의 최초 설치·로그인과 실제 계정 조합별 장시간 사용을 검증하고 재현 조건을 공개 기록으로 남깁니다.",
+      "대기·접수·재연결·한도 복구의 실패 사례를 배포 버전별로 축적해 사용자가 복구 범위를 판단할 수 있도록 보강합니다."
+    ],
+    "sources": [
+      {
+        "label": "현재 제품 소개·지원 AI·기능",
+        "url": "https://github.com/MaoEmong/pixel-office/blob/main/README.md"
+      },
+      {
+        "label": "Windows v0.2.5 공개 릴리스",
+        "url": "https://github.com/MaoEmong/pixel-office/releases/tag/v0.2.5"
+      },
+      {
+        "label": "0.2.5 변경 내역",
+        "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/release/0.2.5/RELEASE-NOTES.md"
+      },
+      {
+        "label": "0.2.5 검증과 미확인 범위",
+        "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/release/0.2.5/VERIFICATION.md"
+      },
+      {
+        "label": "진행 기록·파일 저장·복구",
+        "url": "https://github.com/MaoEmong/pixel-office/blob/main/docs/PROJECT-TIMELINE-KO.md"
+      }
+    ]
+  },
+  "ieum": {
+    "base": {
+      "summary": "사람별 기록·약속 관리 서비스에서 다룬 파일 오류 분류, 배포 설정 차단과 Spring 회귀 검증을 설명하는 백엔드 포트폴리오입니다.",
+      "tagline": "기록과 약속을 잇고, 서버 실패의 의미를 구분하다",
+      "stack": [
+        "Java 21",
+        "Spring Boot",
+        "PostgreSQL",
+        "JPA",
+        "Flyway",
+        "Flutter",
+        "Supabase"
+      ],
+      "verification": "공개 문서에는 독립 Java·Spring 예제 20개 통과와 결함 검출 시연, 과거 서비스 백엔드 210개·앱 834개 통과 기록이 구분되어 있습니다. 이번 소개 작성 중 테스트를 재실행하지 않았습니다.",
+      "scope": "공개 저장소는 새 Git 이력의 선별 포트폴리오입니다. 독립 실행 예제이며 비공개 서비스 전체 소스·발췌 실행본·원본 개발 이력을 제공하지 않습니다.",
+      "imageNote": "실제 Flutter 위젯을 합성 인물·메모·일정으로 렌더링한 화면입니다. 실기기 캡처가 아닙니다."
+    },
+    "facts": [
+      {
+        "label": "서비스",
+        "value": "음성·텍스트·명함 기록과 확인된 약속 관리"
+      },
+      {
+        "label": "백엔드",
+        "value": "Java 21 · Spring Boot · JPA · PostgreSQL"
+      },
+      {
+        "label": "공개 예제",
+        "value": "Boot 3.5 계열의 독립 계약·기동 검사"
+      },
+      {
+        "label": "확인 환경",
+        "value": "Render API · Supabase DB/Storage 스테이징"
+      }
+    ],
+    "problem": [
+      "이음은 흩어진 음성·텍스트·명함을 사람별 기록으로 모으고, 사용자가 확인한 약속을 달력에 연결하는 모바일 서비스입니다. AI가 제안한 내용과 사용자가 확정한 기록을 구분해야 하며, 입력·검수 화면만큼 원본 파일과 서버 응답을 신뢰할 수 있는지가 중요했습니다.",
+      "개발 과정에서는 DB의 기록과 파일 참조가 남아 있는데 서버의 예상 경로에서 일부 원본을 찾지 못하는 문제가 드러났습니다. 파일이 실제로 없는 경우와 일시적으로 읽을 수 없는 경우가 같은 오류로 보이면 앱의 복구 안내도 틀어집니다. 또한 개발 인증과 임시 저장 설정이 배포 환경에 섞이지 않도록, 설정 판단이 실제 서버 기동까지 이어지는지 검증할 필요가 있었습니다.",
+      "공개 포트폴리오는 이 판단을 읽고 실행해 볼 수 있도록 다시 구성했습니다. 실제 서비스의 비공개 AI·검색 구현이나 운영 정보를 옮기는 대신, 실패 분류와 Spring 생명주기의 작은 예제를 공개합니다. 예제의 현재 동작과 과거 서비스의 배포 기록을 분리하는 것이 설명의 기본 원칙입니다."
+    ],
+    "architecture": [
+      {
+        "title": "앱의 검수와 서버의 저장 책임",
+        "body": "Flutter·Riverpod 앱은 입력·검수·비동기 상태와 달력을 담당하고, Spring API는 인증·입력 검사와 사용자별 기록·일정·파일 접근을 담당합니다. 일부 추론·OCR·임베딩은 기기에서 처리하며 음성 전사는 서버와 외부 STT를 거칩니다. 완전 오프라인 구조로 설명하지 않습니다."
+      },
+      {
+        "title": "관계형 데이터와 파일의 분리",
+        "body": "JPA·PostgreSQL·Flyway로 데이터와 스키마 이력을 관리하고, 원본은 Supabase private Storage에 둡니다. 파일 저장 인터페이스에서 공급자의 실패 의미를 해석합니다. DB 조회 성공만으로 원본 보존을 판단하지 않으며 객체 저장소가 DB와 파일의 원자적 트랜잭션을 제공하는 것도 아닙니다."
+      },
+      {
+        "title": "공개 계약을 재구성한 독립 예제",
+        "body": "Java 21·Spring Boot 3.5 계열 예제는 가짜 DocumentStorage와 테스트용 사용자 문맥을 사용합니다. 실제 서비스의 Boot 4 구성·SDK·JWT·DB를 재현하지 않습니다. MockMvc는 MVC 처리·예외 매핑·직렬화를 통과하고, 별도 ApplicationContext 검사는 설정 바인딩과 가드 초기화를 확인합니다."
+      },
+      {
+        "title": "서비스 배포와 분리한 포트폴리오 CI",
+        "body": "공개 GitHub Actions는 Java·Dart 예제, 의도적 결함 검출, 공개 범위와 PDF 구조를 검사합니다. 서비스 자격증명을 사용하거나 실제 서비스에 배포하지 않습니다. Python은 문서 생성·검사 도구이며 서비스 백엔드 런타임은 Java·Spring입니다."
+      }
+    ],
+    "journey": [
+      {
+        "title": "사람별 기록 입력",
+        "body": "음성·텍스트·명함 등으로 기록을 만들고 사람별로 모읍니다. 입력 본문과 전사문·파일 참조를 보존하는 일은 누락 원본을 복구하는 일과 구분합니다."
+      },
+      {
+        "title": "제안과 확정 구분",
+        "body": "약속 후보를 바로 확정 일정으로 취급하지 않고 사용자가 검수하도록 구성했습니다. 공개 협업 사례는 후보의 기본 미선택·명시적 확정과 편집 후 돌아가기 경로의 검증을 설명합니다."
+      },
+      {
+        "title": "기록·일정·원본 조회",
+        "body": "사용자별 접근을 거쳐 기록과 파일을 읽습니다. 원본 부재가 확정되면 부재 응답을, 저장소 장애라면 별도 오류를 전달해 앱이 원인을 오해하지 않도록 합니다."
+      },
+      {
+        "title": "독립 예제에서 판단 검토",
+        "body": "독자는 외부 DB·클라우드 계정 없이 Maven으로 계약을 실행할 수 있습니다. 실제 Spring 요청 처리와 기동 조건의 정상·실패 대조군을 보고 설계 의도를 검토합니다."
+      },
+      {
+        "title": "문서·PDF에서 근거 확인",
+        "body": "기술 사례, AI 협업 요약과 검증 문서를 통해 요구·승인·AI 지원·결과를 연결합니다. 공개 예제 검사와 과거 스테이징 배포 확인의 범위를 따로 읽을 수 있습니다."
+      }
+    ],
+    "engineering": [
+      {
+        "title": "확정된 파일 부재만 404로 변환",
+        "problem": "일반 I/O 오류를 그대로 전달하면 원본 부재를 설명하지 못하고, 모든 저장소 실패를 404로 바꾸면 권한·연결 장애까지 유실로 오인합니다.",
+        "choice": "저장소 어댑터가 부재를 확정한 경우에만 도메인 오류로 바꾸고 HTTP 계층이 공개 오류 계약으로 변환하도록 했습니다. 내부 경로·키·원인 메시지는 숨기며 정상 바이트와 읽기 외 부작용도 검사합니다.",
+        "tradeoff": "공급자 오류를 보수적으로 분류하므로 불명확한 실패는 부재로 단정하지 않습니다. 공개 예제의 502·503 세분화와 테스트용 소유권 문맥은 새로 만든 계약이며 원래 서비스의 인증·SDK를 복제하지 않습니다.",
+        "source": {
+          "label": "파일 부재와 장애의 분류",
+          "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/engineering.md"
+        }
+      },
+      {
+        "title": "설정 함수가 아닌 실제 Spring 기동 검사",
+        "problem": "테스트 기본값이 앱 설정에 덮이거나 가드 빈이 지연 초기화되면 위험 조건을 검사하지 않고도 통과할 수 있습니다. 무관한 DB 배선 실패를 기동 가드 성공으로 오판할 가능성도 있었습니다.",
+        "choice": "위험 조합의 판정과 실제 컨텍스트 기동을 함께 검사합니다. 실패의 최하위 원인·메시지를 확인하고 정상 개발·배포 설정에서는 컨텍스트 활성 상태와 가드 빈의 존재를 대조합니다.",
+        "tradeoff": "공개 예제는 작은 컨텍스트로 생명주기를 확인합니다. DURABLE이라는 선언이나 정상 기동이 실제 저장소의 접근·영속성, 서비스 전체 자동 구성을 보장하지는 않습니다.",
+        "source": {
+          "label": "실행 설정과 예제 검사 범위",
+          "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/examples/backend-boundaries/README.md"
+        }
+      },
+      {
+        "title": "테스트의 통과와 결함 탐지 능력 구분",
+        "problem": "정상 테스트의 통과만 보면 테스트가 의도한 결함을 실제로 잡는지 알기 어렵습니다. 컴파일 오류나 의존성 다운로드 실패를 의도한 실패로 잘못 인정해서도 안 됩니다.",
+        "choice": "테스트 전용 구성에서 모든 저장소 실패를 404로 바꾸거나 기동 가드를 빼고 같은 두 계약이 실패하는지 확인합니다. 새 Surefire XML의 테스트 이름·단언 원인을 확인한 뒤 정상 구현에서 같은 계약의 통과를 대조합니다.",
+        "tradeoff": "현재 포트폴리오를 위해 만든 결함 모델입니다. 과거 서비스의 수정 전 코드·당시 개발 순서·작성자를 입증하지 않으며, 기본 검사의 조건부 스킵과 별도 시연 결과를 구분합니다.",
+        "source": {
+          "label": "독립 결함 주입 시연",
+          "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/examples/backend-boundaries/README.md"
+        }
+      }
+    ],
+    "contribution": [
+      "1인 주도로 요구사항·사용자 시나리오와 수정 승인을 담당하고, AI 코딩 에이전트를 분석·구현·테스트 실행에 활용했습니다. 파일 오류에서는 기록·전사문·참조를 보존하는 수정 범위를, 배포 설정에서는 개발 편의와 배포 차단이 함께 성립하는 조건을 정했습니다. AI가 수행한 코드 작업과 주도자의 요구·승인을 구분합니다.",
+      "공개 협업 자료는 개발 대화를 바탕으로 다듬은 의사결정 요약과 사후 기록입니다. 원문 대화나 원본 실행 로그의 재현으로 표시하지 않습니다. 독립 코드·기대 응답·CI를 통해 현재 검토 가능한 근거를 만들었으며, 코드 생성 비율이나 시간 절감률은 측정하지 않았습니다."
+    ],
+    "validation": [
+      {
+        "label": "공개 Java·Spring 예제",
+        "result": "2026-09-08 기록은 정상 계약 20개 통과·결함 데모 2개 기본 스킵, 별도 결함 2개 탐지 후 정상 구현의 같은 계약 통과입니다.",
+        "scope": "MockMvc 9개와 Spring 컨텍스트 11개를 다루는 독립 예제입니다. 이번 소개 작성 중 재실행하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/verification.md"
+      },
+      {
+        "label": "과거 서비스 회귀·배포",
+        "result": "백엔드 210개·앱 834개 통과와 조건부 스킵 17개, CI·스테이징 배포 확인이 정리되어 있습니다.",
+        "scope": "과거 내부 기록의 재정리입니다. 검사 집합은 중복 가능해 합산하지 않으며 커버리지·AI 정확도·스토어 출시를 뜻하지 않습니다.",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/verification.md"
+      },
+      {
+        "label": "파일 보존과 공개 CI",
+        "result": "신규 합성 사진 1개를 서버 재배포 후 새 앱 프로세스에서 재조회하고 바이트를 대조한 기록이 있습니다. 공개 CI는 예제·문서·PDF 검사를 정의합니다.",
+        "scope": "한 파일의 보존 확인이며 기존 누락 원본 복구가 아닙니다. CI 설정을 읽은 것으로 현재 실행 성공을 새로 확인한 것은 아닙니다.",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/.github/workflows/portfolio-ci.yml"
+      }
+    ],
+    "limitations": [
+      "비공개 서비스 전체 소스·원본 Git 이력·핵심 AI·검색 구현·운영 자격증명은 공개하지 않습니다.",
+      "예제는 가짜 저장소와 테스트용 인증 문맥을 사용합니다. 실제 SDK·JWT·DB·보안 필터 체인의 종합 검증이 아닙니다.",
+      "기존 누락 원본은 복구하지 못했으며 AI 약속 추출·검색 정확도와 환각률의 확정 수치는 없습니다.",
+      "실기기 캡처가 아닌 합성 화면입니다. iOS 실기기·스토어 서명과 출시·알림·외부 캘린더 연동은 완료 범위 밖입니다."
+    ],
+    "nextSteps": [
+      "파일 수명과 DB 참조가 어긋나는 추가 실패 조건을 정리하고, 실제 공급자 연결 검사와 독립 계약 검사 사이의 차이를 유지합니다.",
+      "사용자 시나리오별 추출·검색 평가 기준을 만들고, 정확도와 실패 사례를 측정한 뒤 제품 품질 근거로 공개합니다."
+    ],
+    "sources": [
+      {
+        "label": "서비스와 공개 범위",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/README.md"
+      },
+      {
+        "label": "백엔드 기술 사례",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/engineering.md"
+      },
+      {
+        "label": "Java·Spring 독립 예제",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/examples/backend-boundaries/README.md"
+      },
+      {
+        "label": "서버 구조와 신뢰 경계",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/architecture.md"
+      },
+      {
+        "label": "검증 기록과 한계",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/verification.md"
+      },
+      {
+        "label": "AI 협업의 요구·지원·판단",
+        "url": "https://github.com/MaoEmong/ieum-portfolio-clean/blob/main/docs/ai-assisted-development.md"
+      }
+    ]
+  },
+  "video-translator": {
+    "base": {
+      "summary": "영상 직접 업로드·비동기 음성 인식·번역·편집을 거쳐 시간 정보가 유지된 SRT/VTT 자막을 만드는 포트폴리오 MVP입니다.",
+      "stack": [
+        "Python 3.12",
+        "FastAPI",
+        "PostgreSQL",
+        "Redis",
+        "MinIO",
+        "FFmpeg",
+        "OpenAI"
+      ],
+      "role": "영상 업로드부터 자막 다운로드까지의 비동기 미디어 처리 흐름을 구성한 포트폴리오 프로젝트입니다. 공개 코드와 설계 문서에서 구현 범위를 확인할 수 있습니다.",
+      "verification": "README는 외부 서비스 Mock 기반 자동 테스트 19개 통과와 Docker·MinIO·FFmpeg·OpenAI를 연결한 실제 smoke test 완료를 보고합니다. 이번 소개 작성 중 재실행한 결과는 아닙니다.",
+      "scope": "짧은 영상·로컬 단일 사용자 실행을 기준으로 한 MVP입니다. 사용자 인증·다중 사용자 권한·자동 재시도·Idempotency-Key와 운영 모니터링은 구현 범위 밖입니다."
+    },
+    "facts": [
+      {
+        "label": "입력·출력",
+        "value": "영상 파일 → 편집 가능한 SRT·VTT"
+      },
+      {
+        "label": "실행 구조",
+        "value": "FastAPI API + Redis Queue + 별도 Python Worker"
+      },
+      {
+        "label": "저장",
+        "value": "PostgreSQL 작업 상태 · MinIO/S3 객체 파일"
+      },
+      {
+        "label": "AI 경계",
+        "value": "whisper-1 timed STT · Responses API 구조화 번역"
+      }
+    ],
+    "problem": [
+      "영상 번역은 문장을 다른 언어로 바꾸는 것만으로 끝나지 않습니다. 음성을 추출하고 인식하는 동안 시간이 흐르며, 번역 후에도 화면에 표시할 구간이 원본 음성과 맞아야 합니다. 파일 전체를 API 서버가 중계하거나 긴 처리를 HTTP 요청 안에 묶으면 요청 수명과 미디어 작업 수명이 충돌합니다.",
+      "Video Translator는 이 문제를 업로드·작업 등록·단계 처리·편집·내보내기로 나누어 구현했습니다. 외부 AI가 반환한 JSON도 그대로 신뢰하지 않고 요청한 세그먼트와 일치하는지 확인합니다. 포트폴리오의 초점은 상용 번역 품질이나 대규모 처리량을 주장하는 데 있지 않고, 웹 API·저장소·작업 큐·AI 응답을 하나의 처리 흐름으로 연결하는 데 있습니다."
+    ],
+    "architecture": [
+      {
+        "title": "API가 상태를 만들고 Worker가 처리",
+        "body": "FastAPI는 업로드·작업 생성·상태 조회·세그먼트 편집·내보내기 요청을 담당합니다. 작업과 단계 상태는 PostgreSQL에 기록하고 Redis로 다음 처리 메시지를 전달합니다. API와 Worker는 같은 코드베이스의 별도 프로세스이며 UI는 polling으로 진행 상태를 확인합니다."
+      },
+      {
+        "title": "서버를 거치지 않는 원본 전송",
+        "body": "API가 만료 시각을 가진 업로드 signed URL을 발급하면 브라우저가 private MinIO/S3에 직접 파일을 보냅니다. 완료 검증 후 번역 작업을 만들고, 결과 자막도 만료되는 signed download URL로 전달합니다. API는 바이트 중계 대신 파일 메타데이터와 작업 상태를 관리합니다."
+      },
+      {
+        "title": "시간 정보를 가진 AI 파이프라인",
+        "body": "Worker는 FFmpeg로 mono 16kHz WAV를 만든 뒤 whisper-1의 segment 시간 정보를 밀리초로 정규화합니다. 번역 Adapter에는 세그먼트 ID·원문을 보내고 구조화 응답의 ID 집합·중복·빈 문장을 검사합니다. 원본 시간과 번역 텍스트를 연결해 자막을 생성합니다."
+      },
+      {
+        "title": "번역 버전과 파일 산출물의 분리",
+        "body": "TranscriptSegment는 원문과 기본 시간, TranslationSegment는 번역문과 선택적인 표시 시간을 가집니다. TranslationVersion과 SubtitleArtifact를 나누어 편집 결과에서 SRT/VTT를 다시 만들 수 있도록 구성했습니다. 최종 자막은 UTF-8 바이트로 저장하고 크기·체크섬을 기록합니다."
+      }
+    ],
+    "journey": [
+      {
+        "title": "업로드 세션 만들기",
+        "body": "영상 업로드를 요청해 storage key와 signed URL을 받습니다. 브라우저가 객체 저장소에 직접 전송하고 업로드 완료 검증을 요청합니다."
+      },
+      {
+        "title": "번역 작업 등록하기",
+        "body": "준비된 영상과 목표 언어·번역 스타일로 Job을 만듭니다. API 응답과 장시간 처리를 분리하고 작업 ID로 상태를 조회합니다."
+      },
+      {
+        "title": "단계별 진행 확인하기",
+        "body": "Worker가 검증→오디오 추출→STT→정규화→번역→자막 생성으로 메시지를 이어 보냅니다. UI에서 현재 단계·진행률을 보고 실패 시 해당 상태를 확인합니다."
+      },
+      {
+        "title": "문장과 표시 시간 편집하기",
+        "body": "AI 번역 결과를 세그먼트 단위로 검토하고 번역문·표시 시간을 수정합니다. 기본 시간은 원문 STT에서 가져오고 편집 시간이 있으면 내보내기에서 우선 사용합니다."
+      },
+      {
+        "title": "자막 파일 내려받기",
+        "body": "선택한 버전에서 SRT 또는 VTT Artifact를 만들고 만료 URL로 내려받습니다. 자막 파일 생성과 번역 영상 렌더링·음성 더빙은 별도 범위입니다."
+      }
+    ],
+    "engineering": [
+      {
+        "title": "긴 작업의 상태를 PostgreSQL에 남기기",
+        "problem": "FFmpeg·STT·번역을 동기 요청으로 묶으면 timeout과 응답 지연이 생기고 처리 중 어디에 있는지 알기 어렵습니다.",
+        "choice": "API는 작업을 기록하고 Redis에 메시지를 넣습니다. Worker는 단계 상태를 queued/running/completed/failed로 남기며, 한 단계를 마치면 다음 메시지를 등록합니다. 영속적인 상태의 기준은 PostgreSQL로 두었습니다.",
+        "tradeoff": "별도 프로세스와 Redis 운영이 필요합니다. MVP에서는 Celery/RabbitMQ의 복잡성을 줄인 대신 자동 재시도·Dead Letter Queue·멱등성 정책은 후속 과제로 남겼습니다.",
+        "source": {
+          "label": "ADR-002 비동기 처리 선택",
+          "url": "https://github.com/MaoEmong/video-translator/blob/main/documents/adr/ADR-002-redis-queue-and-worker.md"
+        }
+      },
+      {
+        "title": "번역 모델에 자막 시간을 맡기지 않기",
+        "problem": "번역 응답이 문장을 합치거나 ID를 누락하면 원문 구간과 번역문을 연결할 수 없습니다. 텍스트만 있는 STT 결과로는 자막의 정확한 표시 시간을 만들기 어렵습니다.",
+        "choice": "STT에서 timed segment를 확보하고 번역은 ID와 문장 변환에 집중시켰습니다. strict JSON schema를 요청한 뒤에도 ID 집합·개수·빈 번역문을 다시 검사하고, 자막 생성은 원문 시간 또는 사용자의 편집 시간을 사용합니다.",
+        "tradeoff": "timed segment를 지원하는 모델 기능에 의존하며 장시간 chunking·화자 분리는 제외했습니다. 형식 검사 통과는 번역 의미의 정확성을 보장하지 않아 사람의 편집 단계를 유지합니다.",
+        "source": {
+          "label": "OpenAI Adapter의 시간·응답 검사",
+          "url": "https://github.com/MaoEmong/video-translator/blob/main/backend/app/providers/openai_adapters.py"
+        }
+      },
+      {
+        "title": "대용량 전송을 객체 저장소로 직접 보내기",
+        "problem": "API 서버가 영상 전체를 받아 다시 저장하면 메모리·연결 시간·전송 부담이 커지고, 공개 고정 URL은 파일 접근 수명을 통제하기 어렵습니다.",
+        "choice": "private 객체 저장소에 대해 PUT/GET presigned URL을 발급합니다. 업로드에는 Content-Type과 TTL을 지정하고 head_object로 파일 메타데이터를 조회합니다. 원본·정규화 오디오·자막은 key를 통해 연결합니다.",
+        "tradeoff": "브라우저 전송·저장소 설정과 업로드 완료 검증을 별도로 다뤄야 합니다. 만료 URL이 사용자 인증·소유권을 대신하지 않으며 운영 보관 기간·자동 삭제·다중 사용자 권한은 추가 설계가 필요합니다.",
+        "source": {
+          "label": "S3 gateway와 signed URL",
+          "url": "https://github.com/MaoEmong/video-translator/blob/main/backend/app/storage/s3.py"
+        }
+      }
+    ],
+    "contribution": [
+      "프로젝트에서 보여주는 구현 범위는 업로드 세션부터 번역 Job, Worker의 단계 진행과 자막 Artifact까지 이어지는 전체 비동기 흐름입니다. 웹 UI와 REST API만 완성하는 데 그치지 않고, 파일 저장 위치·작업 상태의 기준·외부 AI 응답 검증·편집 결과의 재생성을 코드와 ADR로 연결했습니다.",
+      "공개 자료만으로 작성 방식의 비율이나 구현 시간을 단정하지 않습니다. 이 소개는 저장소의 현재 코드·README·ADR를 읽어 동작과 판단을 설명한 것이며, 자동 테스트와 실제 구성품 연결 검사의 결과는 README에 보고된 기존 기록으로 인용합니다."
+    ],
+    "validation": [
+      {
+        "label": "Mock 기반 자동 검사",
+        "result": "README에는 자동 테스트 19개 통과가 기록되어 있습니다.",
+        "scope": "업로드·작업 생성 API와 번역→자막 파이프라인을 외부 서비스 Mock으로 검증한 기록입니다. 이번 소개 작성 중 재실행하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/README.md"
+      },
+      {
+        "label": "실제 구성품 연결 검사",
+        "result": "Docker·MinIO·FFmpeg·OpenAI를 연결한 실제 smoke test 완료를 README가 보고합니다.",
+        "scope": "저장소의 보고 내용이며 별도 원시 로그를 대조하거나 현재 환경에서 반복 실행한 것은 아닙니다. 운영 안정성·번역 품질의 정량 평가로 확대하지 않습니다.",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/README.md"
+      },
+      {
+        "label": "구현·설계 정합성 확인",
+        "result": "공개 pipeline에서 단계 메시지 전달, timed segment 저장, 편집 시간 우선 적용과 자막 바이트·체크섬 생성을 읽을 수 있습니다.",
+        "scope": "현재 공개 소스의 읽기 확인입니다. 장애 복구·중복 메시지·동시 편집·장시간 영상의 동작을 새로 실행 검증하지 않았습니다.",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/worker/pipeline.py"
+      }
+    ],
+    "limitations": [
+      "짧은 영상과 로컬 단일 사용자 기준의 MVP입니다. 인증·multi-tenant 권한과 운영 배포 검증은 포함하지 않습니다.",
+      "자동 재시도 정책·Idempotency-Key·Dead Letter Queue는 후속 범위입니다. 단계 기록이 있다는 이유로 중복 처리 방지를 보장하지 않습니다.",
+      "장시간 영상 chunk 분할·화자 분리·번역 영상 렌더링·음성 더빙은 제외했습니다.",
+      "운영 모니터링·quota·결제·자동 보관 삭제와 번역 품질의 정량 평가는 남아 있습니다."
+    ],
+    "nextSteps": [
+      "장시간 입력의 크기·길이·비용 상한을 먼저 정하고 chunking·재시도·멱등성·실패 메시지 처리를 설계합니다.",
+      "다중 사용자 인증과 소유권·파일 lifecycle을 정하고 편집 충돌·언어별 번역 품질의 평가 기준을 추가합니다."
+    ],
+    "sources": [
+      {
+        "label": "기능·실행·기존 검증 기록",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/README.md"
+      },
+      {
+        "label": "Worker의 단계 처리 구현",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/worker/pipeline.py"
+      },
+      {
+        "label": "OpenAI STT·번역 Adapter",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/backend/app/providers/openai_adapters.py"
+      },
+      {
+        "label": "signed URL 저장소 구현",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/backend/app/storage/s3.py"
+      },
+      {
+        "label": "Queue·Worker 결정과 대안",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/documents/adr/ADR-002-redis-queue-and-worker.md"
+      },
+      {
+        "label": "운영 확장 검토 사항",
+        "url": "https://github.com/MaoEmong/video-translator/blob/main/documents/13-open-decisions.md"
+      }
+    ]
+  }
+}

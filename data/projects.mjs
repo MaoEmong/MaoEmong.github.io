@@ -1,4 +1,6 @@
-export const projects = [
+import {readFileSync, existsSync} from 'node:fs';
+
+const catalog = [
  {id:'ems',repo:'ems-ai-team-portfolio',title:'EMS 사원관리 시스템',category:'서비스·앱',tagline:'인사 업무의 흐름을 하나의 웹 서비스로',stack:['Java','Spring Boot','React','TypeScript','MySQL'],
  summary:'사원·조직·근태·휴가부터 데모 급여와 평가까지 관리하는 기업 업무 시스템입니다.',
  overview:'여러 화면과 승인 절차로 나뉘는 인사 업무를 연결했습니다. 기능 구현에 더해 누가 어떤 정보를 볼 수 있는지, 변경 이력이 어떻게 남는지와 AI 결과를 어디까지 적용할지 함께 다룹니다.',
@@ -91,4 +93,16 @@ export const projects = [
  {id:'suika',repo:'SuikaGame_Unity',title:'수박게임 · Watermelon',category:'게임',tagline:'물리 충돌로 같은 과일을 합성하다',stack:['Unity','C#','2D Physics'],summary:'같은 단계의 과일을 충돌시켜 합성하는 2D 퍼즐 프로토타입입니다.',overview:'마우스로 위치를 정해 과일을 떨어뜨리고 같은 과일이 만날 때 다음 단계로 합성합니다. 점수와 상단 체류 시간에 따른 게임 종료를 연결합니다.',features:[['과일 생성과 드롭','상단 대기 과일의 좌우 이동과 클릭으로 떨어뜨리는 조작을 구현했습니다.'],['충돌과 합성','동일 단계 과일의 충돌을 감지하고 다음 단계 과일 생성과 점수 증가를 처리합니다.'],['종료와 초기화','상단 게임오버 라인 체류 시간을 확인하고 메뉴 복귀 시 필드를 정리합니다.']],decisions:[['물리 기반 상호작용','2D 물리와 충돌 이벤트로 과일의 움직임과 합성을 연결합니다.']],flow:['위치 선택','과일 드롭','충돌·합성','점수·종료'],scope:'랭킹 패널은 있지만 실제 랭킹 로딩·저장·서버 연동은 구현 범위 밖입니다. README에는 자동화 테스트가 없다고 명시되어 있습니다.',imageNote:'공개 README의 프로토타입 화면입니다.',followup:['동시 충돌·중복 합성 방지와 종료 시점의 검증 사례 추가'],priority:'보통'},
 ];
 
-export const site={name:'김해준',englishName:'Haejoon Kim',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-10-23'};
+export const site={name:'김해준',englishName:'Haejoon Kim',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-01'};
+
+
+export const selectedIds = ['ems','commerce','support-desk','ieum','pixel-office','video-translator','synapse','travel','langgraph-rag','haru'];
+const details = Object.assign({}, ...['business','products','supporting'].map(name => {
+  const file = new URL(`./details/${name}.json`, import.meta.url);
+  return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
+}));
+const categories = {'ems':'웹·백엔드','commerce':'웹·백엔드','support-desk':'AI·서비스','ieum':'웹·백엔드','pixel-office':'개발 도구','video-translator':'AI·서비스','synapse':'웹·백엔드','travel':'웹·백엔드','langgraph-rag':'AI·서비스','haru':'모바일'};
+export const allProjects = catalog.map(p => ({...p, ...(details[p.id]?.base || {}),
+  category: categories[p.id] || p.category, featured: selectedIds.indexOf(p.id) >= 0 && selectedIds.indexOf(p.id) < 6,
+  detail: details[p.id] || null, archived: !selectedIds.includes(p.id)}));
+export const projects = selectedIds.map(id => allProjects.find(p => p.id === id));
