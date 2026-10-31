@@ -56,6 +56,9 @@ STYLE = {
     'h2': ParagraphStyle('h2', fontName='KR-Bold', fontSize=13, leading=21, textColor=INK, spaceBefore=14, spaceAfter=9, keepWithNext=True, wordWrap='CJK'),
     'label': ParagraphStyle('label', fontName='KR-Bold', fontSize=8, leading=13, textColor=ACC, spaceBefore=6, spaceAfter=7, keepWithNext=True, wordWrap='CJK'),
 }
+STYLE['validation-body'] = ParagraphStyle('validation-body', parent=STYLE['body'], leading=16, spaceAfter=7)
+STYLE['validation-scope'] = ParagraphStyle('validation-scope', parent=STYLE['muted'], leading=14, spaceAfter=6)
+STYLE['validation-heading'] = ParagraphStyle('validation-heading', parent=STYLE['h2'], leading=19, spaceBefore=10, spaceAfter=7)
 
 def P(text, style='body'):
     return Paragraph(escape(str(text)).replace('\n','<br/>'), STYLE[style])
@@ -88,7 +91,7 @@ class NumberedCanvas(canvas.Canvas):
         self.drawString(M, H-24, '김해준 / PORTFOLIO')
         self.drawRightString(W-M, H-24, p['title'])
         self.line(M, 36, W-M, 36)
-        self.drawString(M, 24, '공개 자료 확인 '+p['sourceUpdated'])
+        self.drawString(M, 24, '자료 업데이트 '+p['sourceUpdated'])
         self.setFont('Helvetica', 7)
         url = f'https://maoemong.github.io/projects/{p["id"]}/'
         self.drawCentredString(W/2, 24, 'maoemong.github.io/projects/'+p['id']+'/')
@@ -134,15 +137,21 @@ def make(p):
             case_story = story[engineering_start:] + case_story
             del story[engineering_start:]
         story.append(KeepTogether(case_story))
-    section('05','ROLE & CONTRIBUTION','본인의 역할과 기여',new_page=False)
+    contribution_start = len(story)
+    section('05','ROLE & CONTRIBUTION','맡은 역할과 기여',new_page=False)
     paragraphs(d['contribution'])
-    story.extend([Spacer(1,15),P('06 / EVIDENCE & LIMITS','label'),P('무엇을 확인했고, 무엇이 남았나요?','h1'),P('아래 결과는 연결된 공개 문서의 기록입니다. 이 소개를 갱신하면서 원본 프로젝트의 검사를 다시 실행한 결과는 아닙니다.','small')])
-    for item in d['validation']:
-        story.extend([P(item['label'],'h2'),P(item['result']),P(item['scope'],'muted'),L('검증 근거 보기',item['url'])])
-    story.append(P('현재 소개 범위와 한계','h2'))
-    bullet(d['limitations'])
-    story.append(P('다음에 보완할 것','h2'))
-    bullet(d['nextSteps'])
+    contribution_story = story[contribution_start:]
+    story[contribution_start:] = [KeepTogether(contribution_story)]
+    validation_start = len(story)
+    story.extend([Spacer(1,15),P('06 / EVIDENCE & LIMITS','label'),P('무엇을 확인했고, 무엇이 남았나요?','h1'),P('프로젝트 검증 당시의 실행 기록과 코드에 구성한 테스트 항목을 정리했습니다. 각 항목에 실행 조건과 추가 확인이 필요한 범위를 함께 적었습니다.','small')])
+    for i,item in enumerate(d['validation']):
+        validation_story = [P(item['label'],'validation-heading'),P(item['result'],'validation-body'),P(item['scope'],'validation-scope'),L('검증 근거 보기',item['url'])]
+        if i == 0:
+            validation_story = story[validation_start:] + validation_story
+            del story[validation_start:]
+        story.append(KeepTogether(validation_story))
+    for title,items in [('현재 범위와 남은 과제',d['limitations']),('다음에 보완할 것',d['nextSteps'])]:
+        story.append(KeepTogether([P(title,'validation-heading'),*[P('• '+item,'validation-body') for item in items]]))
     images = p['assets']['images']
     if images:
         screens_start = len(story)
@@ -159,7 +168,7 @@ def make(p):
         screens = story[screens_start:]
         story[screens_start:] = [KeepTogether(screens)]
     sources_start = len(story)
-    section('08' if images else '07','SOURCE MATERIAL','설명과 함께 확인할 근거',new_page=False)
+    section('08' if images else '07','SOURCE MATERIAL','코드와 개발 기록',new_page=False)
     story.append(P('아래 공개 자료에서 구현 범위와 설계 판단을 확인할 수 있습니다. 링크를 누르면 원문으로 이동합니다.'))
     for i,source in enumerate(d['sources'],1):
         story.extend([P(f'{i:02d}  '+source['label'],'h2'),L(source['url'],source['url'])])

@@ -2,70 +2,70 @@
   "ems": {
     "file": "ems-portfolio.pdf",
     "pages": 8,
-    "bytes": 1289527,
+    "bytes": 1290099,
     "github": "https://github.com/MaoEmong/ems-ai-team-portfolio",
     "updated": "2026-11-01"
   },
   "commerce": {
     "file": "commerce-portfolio.pdf",
     "pages": 8,
-    "bytes": 1976722,
+    "bytes": 1976544,
     "github": "https://github.com/MaoEmong/commerce-ai-portfolio",
     "updated": "2026-11-01"
   },
   "support-desk": {
     "file": "support-desk-portfolio.pdf",
     "pages": 8,
-    "bytes": 1206912,
+    "bytes": 1206101,
     "github": "https://github.com/MaoEmong/support-desk",
     "updated": "2026-11-01"
   },
   "ieum": {
     "file": "ieum-portfolio.pdf",
-    "pages": 8,
-    "bytes": 1085012,
+    "pages": 9,
+    "bytes": 1084599,
     "github": "https://github.com/MaoEmong/ieum-portfolio-clean",
     "updated": "2026-11-01"
   },
   "pixel-office": {
     "file": "pixel-office-portfolio.pdf",
     "pages": 8,
-    "bytes": 1754217,
+    "bytes": 1751420,
     "github": "https://github.com/MaoEmong/pixel-office",
     "updated": "2026-11-01"
   },
   "video-translator": {
     "file": "video-translator-portfolio.pdf",
     "pages": 7,
-    "bytes": 151553,
+    "bytes": 150113,
     "github": "https://github.com/MaoEmong/video-translator",
     "updated": "2026-11-01"
   },
   "synapse": {
     "file": "synapse-portfolio.pdf",
     "pages": 7,
-    "bytes": 156803,
+    "bytes": 153770,
     "github": "https://github.com/MaoEmong/synapse-team-archive",
     "updated": "2026-11-01"
   },
   "travel": {
     "file": "travel-portfolio.pdf",
     "pages": 8,
-    "bytes": 2357705,
+    "bytes": 2358070,
     "github": "https://github.com/MaoEmong/travel_platform",
     "updated": "2026-11-01"
   },
   "langgraph-rag": {
     "file": "langgraph-rag-portfolio.pdf",
     "pages": 7,
-    "bytes": 153215,
+    "bytes": 152066,
     "github": "https://github.com/MaoEmong/LangGraph-Rag",
     "updated": "2026-11-01"
   },
   "haru": {
     "file": "haru-portfolio.pdf",
     "pages": 8,
-    "bytes": 1345349,
+    "bytes": 1346346,
     "github": "https://github.com/MaoEmong/haru-record",
     "updated": "2026-11-01"
   }
