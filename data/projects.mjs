@@ -44,7 +44,7 @@ const catalog = [
  overview:'작성한 노트를 연결하고 AI로 학습카드를 생성해 복습으로 이어지는 흐름을 지향합니다. 팀 프로젝트의 여러 서비스와 화면, 설계 결정을 모아 둔 아카이브입니다.',
  features:[['노트와 연결','마크다운 노트와 위키 링크를 지식 그래프로 연결하는 구조를 다룹니다.'],['학습과 반복 복습','AI 학습카드와 간격 반복 복습, 학습 그룹 공유 흐름을 설계했습니다.'],['여러 서비스의 협력','인증·플랫폼, 지식, 학습, 커뮤니티 기능을 서비스로 나누고 이벤트로 연결하는 구조를 소개합니다.']],
  decisions:[['이벤트로 서비스 연결','Kafka를 통해 각 서비스의 변경을 전달하는 구조와 발행·처리 규칙을 문서화했습니다.'],['설계 판단 기록','서비스 분리, 통신 방식과 데이터 격리의 선택 이유를 설계 결정 문서로 남겼습니다.']],
- flow:['노트 작성','지식 연결','카드 생성','반복 복습'],role:'팀원 표에서 김해준은 플랫폼 서비스의 인증·감사·결제·알림 영역으로 기재되어 있습니다. Flutter 화면은 공동 작업으로 소개됩니다.',
+ flow:['노트 작성','지식 연결','카드 생성','반복 복습'],role:'팀원 표에서 EMONG은 플랫폼 서비스의 인증·감사·결제·알림 영역으로 기재되어 있습니다. Flutter 화면은 공동 작업으로 소개됩니다.',
  verification:'README에 구현 현황과 진행 중인 일정이 함께 남아 있습니다. 설계한 기능 전체를 완료한 것으로 일괄 표시하지 않습니다.',scope:'팀 아카이브이며 구현 완료 범위와 본인 기여의 근거를 추가 대조할 필요가 있습니다.',
  followup:['계획과 실제 완료 범위 대조','플랫폼 서비스에서 본인이 구현한 부분과 검증 근거 연결','아카이브의 외부 저장소 링크와 실행·시연 자료 점검'],priority:'높음'},
  {id:'travel',repo:'travel_platform',title:'여기 한국',category:'서비스·앱',tagline:'여행 계획부터 숙소 예약까지 이어지는 웹 서비스',stack:['Java','Spring Boot','Mustache','JavaScript','MySQL','Redis'],
@@ -93,7 +93,7 @@ const catalog = [
  {id:'suika',repo:'SuikaGame_Unity',title:'수박게임 · Watermelon',category:'게임',tagline:'물리 충돌로 같은 과일을 합성하다',stack:['Unity','C#','2D Physics'],summary:'같은 단계의 과일을 충돌시켜 합성하는 2D 퍼즐 프로토타입입니다.',overview:'마우스로 위치를 정해 과일을 떨어뜨리고 같은 과일이 만날 때 다음 단계로 합성합니다. 점수와 상단 체류 시간에 따른 게임 종료를 연결합니다.',features:[['과일 생성과 드롭','상단 대기 과일의 좌우 이동과 클릭으로 떨어뜨리는 조작을 구현했습니다.'],['충돌과 합성','동일 단계 과일의 충돌을 감지하고 다음 단계 과일 생성과 점수 증가를 처리합니다.'],['종료와 초기화','상단 게임오버 라인 체류 시간을 확인하고 메뉴 복귀 시 필드를 정리합니다.']],decisions:[['물리 기반 상호작용','2D 물리와 충돌 이벤트로 과일의 움직임과 합성을 연결합니다.']],flow:['위치 선택','과일 드롭','충돌·합성','점수·종료'],scope:'랭킹 패널은 있지만 실제 랭킹 로딩·저장·서버 연동은 구현 범위 밖입니다. README에는 자동화 테스트가 없다고 명시되어 있습니다.',imageNote:'공개 README의 프로토타입 화면입니다.',followup:['동시 충돌·중복 합성 방지와 종료 시점의 검증 사례 추가'],priority:'보통'},
 ];
 
-export const site={name:'김해준',englishName:'Haejoon Kim',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-01'};
+export const site={name:'EMONG',englishName:'EMONG',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-01'};
 
 
 export const selectedIds = ['ems','commerce','support-desk','ieum','pixel-office','video-translator','synapse','travel','langgraph-rag','haru'];
