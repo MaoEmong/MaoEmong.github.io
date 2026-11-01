@@ -44,8 +44,8 @@ LIGHT = HexColor('#F4F6FA')
 LINE = HexColor('#DEE3EE')
 GREEN = HexColor('#16866B')
 c = canvas.Canvas(str(OUT), pagesize=A4, pageCompression=1)
-c.setTitle('픽셀 오피스 | 김해준 개발 포트폴리오')
-c.setAuthor('김해준 (Haejoon Kim) / MaoEmong')
+c.setTitle('픽셀 오피스 | EMONG 개발 포트폴리오')
+c.setAuthor('EMONG')
 c.setSubject('AI 작업 관리 Windows 앱: 기능, 구조, 문제 해결, 검증과 배포')
 
 def text(x,top,value,size=10,font='Korean',color=INK):
@@ -85,7 +85,7 @@ def header(page,category,title,summary):
 
 def footer(page):
     rule(H-43)
-    text(M,H-32,'김해준 · MaoEmong',7.5,'Korean',MUTED)
+    text(M,H-32,'EMONG',7.5,'Korean',MUTED)
     url='github.com/MaoEmong/pixel-office'
     text(M+125,H-31,url,7.4,'Helvetica',MUTED)
     c.linkURL(REPO,(M+125,18,M+125+pdfmetrics.stringWidth(url,'Helvetica',7.4),35),relative=0,thickness=0)
@@ -122,7 +122,7 @@ small_card(M+2*(tile+gap),574,tile,79,'03  Windows 배포','실행 구성품을 
 box(M,678,CW,63,PALE)
 text(M+15,689,'GitHub · 앱 소개 / 스크린샷 / 다운로드',9,'Korean-Bold',ACCENT)
 link(M+15,712,REPO,REPO,10.2)
-text(M,760,'김해준 (Haejoon Kim)  |  개인 주도 · AI 협업 개발',9.2,'Korean',MUTED)
+text(M,760,'EMONG  |  개인 주도 · AI 협업 개발',9.2,'Korean',MUTED)
 end(1)
 
 # 02 / Product flow
@@ -230,7 +230,7 @@ c.save()
 reader=PdfReader(OUT)
 assert len(reader.pages)==6
 all_text='\n'.join(p.extract_text() or '' for p in reader.pages)
-for expected in ['픽셀 오피스','김해준','1,347','896','1,940',REPO]:
+for expected in ['픽셀 오피스','EMONG','1,347','896','1,940',REPO]:
     assert expected in all_text, expected
 links=[]
 for page in reader.pages:

@@ -88,7 +88,7 @@ class NumberedCanvas(canvas.Canvas):
         self.line(M, H-33, W-M, H-33)
         self.setFillColor(MUTED)
         self.setFont('KR', 7)
-        self.drawString(M, H-24, '김해준 / PORTFOLIO')
+        self.drawString(M, H-24, 'EMONG / PORTFOLIO')
         self.drawRightString(W-M, H-24, p['title'])
         self.line(M, 36, W-M, 36)
         self.drawString(M, 24, '자료 업데이트 '+p['sourceUpdated'])
@@ -101,7 +101,7 @@ def make(p):
     d = p['detail']
     file = OUT / f'{p["id"]}-portfolio.pdf'
     doc = SimpleDocTemplate(str(file), pagesize=A4, leftMargin=M, rightMargin=M, topMargin=53, bottomMargin=51,
-        title=f'{p["title"]} | 김해준 포트폴리오', author='김해준 (Haejoon Kim) / MaoEmong')
+        title=f'{p["title"]} | EMONG 포트폴리오', author='EMONG')
     story = []
     def section(no, label, title, new_page=True):
         if new_page:
