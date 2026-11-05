@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parents[1]
 data = json.loads((root / '.work/projects.json').read_text('utf-8'))
 selected = [p for p in data if not p.get('archived', False)]
 manifest = json.loads((root / 'output/pdf/manifest.json').read_text('utf-8'))
-assert len(selected) == len(manifest) == 10, 'PDF catalog must match the selected ten projects'
+assert len(selected) == len(manifest) == 11, 'PDF catalog must match the eleven selected projects'
 normalize = lambda s: re.sub(r'\s+', '', s)
 total = 0
 for p in selected:

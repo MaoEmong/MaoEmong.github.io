@@ -1,7 +1,7 @@
 # Portfolio design
 
 - Purpose: one link to a project index, one independent reading page per public portfolio repository, one downloadable PDF per page.
-- Ordering: EMS, Pixel Office, Ieum, then other public portfolio projects. No interview-study, profile repository, model-only repository or private development repository.
+- Ordering: FlowMES, EMS, commerce, Support Desk, Ieum, Pixel Office, Video Translator, then the four supporting projects. Preserve the existing ten projects and feature these first seven. No interview-study, profile repository, model-only repository or private development repository.
 - Palette: paper `#f7f8f4`, ink `#202c27`, muted `#66716a`, forest accent `#285943`, pale green `#eaf0e6`, line `#dfe4dc`.
 - Typography: system sans-serif with Korean OS fonts; Georgia for small index numbers. Left-aligned editorial layout, visible repository URLs, numbered project rows, thin separators.
 - Navigation: persistent project contents on desktop; native expandable contents on mobile. Project links always navigate to independent URLs.

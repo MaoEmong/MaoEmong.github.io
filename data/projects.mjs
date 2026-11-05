@@ -1,6 +1,10 @@
 import {readFileSync, existsSync} from 'node:fs';
 
 const catalog = [
+ {id:'flowmes',repo:'flowmes',title:'FlowMES 제조실행시스템',category:'웹·백엔드',tagline:'작업지시에서 생산·품질·재고·설비 기록까지 하나로',stack:['Java 21','Spring Boot','React','TypeScript','PostgreSQL','MQTT','Docker Compose'],
+ features:[['생산과 현장 작업','기준정보·작업 배정부터 자재 스캔·실적·불량 확정과 연결 복구 후 재전송까지 이어집니다.'],['생산 묶음 추적과 품질','생산 묶음(LOT)의 자재·제품 관계를 추적하고, 검사 불합격 묶음의 사용·이동을 막습니다.'],['재고와 정정 이력','입고·이동·출고·실사를 관리하고, 원본을 남긴 반대 기록과 새 기록으로 정정합니다.'],['설비 현황과 생산 지표','시뮬레이터의 설비 메시지를 받아 상태·무응답·교대별 생산 지표를 구분해 표시합니다.'],['품질 통계·공구·예방보전','품질 관리도와 공구 수명, 정비 계획·기록, 리포트 내보내기와 알림을 제공합니다.'],['조회형 AI','허용된 조회로 업무 질문에 답하며 업무 데이터를 변경하지 않습니다. 기본은 규칙 해석이고 실제 모델 연결은 선택 사항입니다.']],
+ flow:['작업 발행','자재 투입·실적 확정','품질·재고·이력 연결','현황 확인'],
+ imageNote:'2026-11-05 공개한 실제 앱의 시연 데이터 화면입니다. 실제 공장·고객 데이터가 아니며, 설비는 시뮬레이터를 사용합니다. 공개 원본 화면을 사용했고 이번 소개 작업에서 새로 촬영하지 않았습니다.'},
  {id:'ems',repo:'ems-ai-team-portfolio',title:'EMS 사원관리 시스템',category:'서비스·앱',tagline:'인사 업무의 흐름을 하나의 웹 서비스로',stack:['Java','Spring Boot','React','TypeScript','MySQL'],
  summary:'사원·조직·근태·휴가부터 데모 급여와 평가까지 관리하는 기업 업무 시스템입니다.',
  overview:'여러 화면과 승인 절차로 나뉘는 인사 업무를 연결했습니다. 기능 구현에 더해 누가 어떤 정보를 볼 수 있는지, 변경 이력이 어떻게 남는지와 AI 결과를 어디까지 적용할지 함께 다룹니다.',
@@ -93,16 +97,16 @@ const catalog = [
  {id:'suika',repo:'SuikaGame_Unity',title:'수박게임 · Watermelon',category:'게임',tagline:'물리 충돌로 같은 과일을 합성하다',stack:['Unity','C#','2D Physics'],summary:'같은 단계의 과일을 충돌시켜 합성하는 2D 퍼즐 프로토타입입니다.',overview:'마우스로 위치를 정해 과일을 떨어뜨리고 같은 과일이 만날 때 다음 단계로 합성합니다. 점수와 상단 체류 시간에 따른 게임 종료를 연결합니다.',features:[['과일 생성과 드롭','상단 대기 과일의 좌우 이동과 클릭으로 떨어뜨리는 조작을 구현했습니다.'],['충돌과 합성','동일 단계 과일의 충돌을 감지하고 다음 단계 과일 생성과 점수 증가를 처리합니다.'],['종료와 초기화','상단 게임오버 라인 체류 시간을 확인하고 메뉴 복귀 시 필드를 정리합니다.']],decisions:[['물리 기반 상호작용','2D 물리와 충돌 이벤트로 과일의 움직임과 합성을 연결합니다.']],flow:['위치 선택','과일 드롭','충돌·합성','점수·종료'],scope:'랭킹 패널은 있지만 실제 랭킹 로딩·저장·서버 연동은 구현 범위 밖입니다. README에는 자동화 테스트가 없다고 명시되어 있습니다.',imageNote:'공개 README의 프로토타입 화면입니다.',followup:['동시 충돌·중복 합성 방지와 종료 시점의 검증 사례 추가'],priority:'보통'},
 ];
 
-export const site={name:'EMONG',englishName:'EMONG',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-01'};
+export const site={name:'EMONG',englishName:'EMONG',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-06'};
 
 
-export const selectedIds = ['ems','commerce','support-desk','ieum','pixel-office','video-translator','synapse','travel','langgraph-rag','haru'];
-const details = Object.assign({}, ...['business','products','supporting'].map(name => {
+export const selectedIds = ['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','synapse','travel','langgraph-rag','haru'];
+const details = Object.assign({}, ...['business','products','supporting','flowmes'].map(name => {
   const file = new URL(`./details/${name}.json`, import.meta.url);
   return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
 }));
 const categories = {'ems':'웹·백엔드','commerce':'웹·백엔드','support-desk':'AI·서비스','ieum':'웹·백엔드','pixel-office':'개발 도구','video-translator':'AI·서비스','synapse':'웹·백엔드','travel':'웹·백엔드','langgraph-rag':'AI·서비스','haru':'모바일'};
 export const allProjects = catalog.map(p => ({...p, ...(details[p.id]?.base || {}),
-  category: categories[p.id] || p.category, featured: selectedIds.indexOf(p.id) >= 0 && selectedIds.indexOf(p.id) < 6,
+  category: categories[p.id] || p.category, featured: selectedIds.indexOf(p.id) >= 0 && selectedIds.indexOf(p.id) < 7,
   detail: details[p.id] || null, archived: !selectedIds.includes(p.id)}));
 export const projects = selectedIds.map(id => allProjects.find(p => p.id === id));

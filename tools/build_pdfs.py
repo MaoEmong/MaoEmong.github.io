@@ -154,19 +154,16 @@ def make(p):
         story.append(KeepTogether([P(title,'validation-heading'),*[P('• '+item,'validation-body') for item in items]]))
     images = p['assets']['images']
     if images:
-        screens_start = len(story)
-        section('07','SCREENS','프로젝트 화면',new_page=False)
+        section('07','SCREENS','프로젝트 화면',new_page=True)
         story.append(P(p.get('imageNote','공개 README에 수록된 프로젝트 화면입니다.'),'small'))
         for image in images:
             image_file = ROOT/image['path'].lstrip('/')
             with PILImage.open(image_file) as pic:
                 iw,ih = pic.size
-            scale = min(CW/iw, 155/ih)
+            scale = min(CW/iw, 530/ih)
             figure = Image(str(image_file),width=iw*scale,height=ih*scale)
             figure.hAlign = 'CENTER'
-            story.extend([figure,Spacer(1,6),P(image['alt'],'small'),Spacer(1,14)])
-        screens = story[screens_start:]
-        story[screens_start:] = [KeepTogether(screens)]
+            story.append(KeepTogether([figure,Spacer(1,6),P(image['alt'],'small'),Spacer(1,14)]))
     sources_start = len(story)
     section('08' if images else '07','SOURCE MATERIAL','코드와 개발 기록',new_page=False)
     story.append(P('아래 공개 자료에서 구현 범위와 설계 판단을 확인할 수 있습니다. 링크를 누르면 원문으로 이동합니다.'))
@@ -177,6 +174,7 @@ def make(p):
     doc.build(story,canvasmaker=lambda *a,**kw:NumberedCanvas(*a,project=p,**kw))
     return file
 
+previous_manifest = json.loads((OUT/'manifest.json').read_text('utf-8')) if (OUT/'manifest.json').exists() else {}
 manifest = {}
 for p in DATA:
     file = OUT / f'{p["id"]}-portfolio.pdf'
@@ -185,7 +183,8 @@ for p in DATA:
     if not file.exists():
         raise FileNotFoundError(file)
     reader = PdfReader(file)
-    manifest[p['id']] = {'file':file.name,'pages':len(reader.pages),'bytes':file.stat().st_size,'github':p['github'],'updated':p['sourceUpdated']}
+    updated = p['sourceUpdated'] if not args.only or p['id'] in args.only else previous_manifest.get(p['id'],{}).get('updated',p['sourceUpdated'])
+    manifest[p['id']] = {'file':file.name,'pages':len(reader.pages),'bytes':file.stat().st_size,'github':p['github'],'updated':updated}
     print(json.dumps({'id':p['id'],**manifest[p['id']]},ensure_ascii=False))
 (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'Completed {len(manifest)} selected project PDFs.')
