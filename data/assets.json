@@ -442,5 +442,59 @@
     ],
     "readme": "https://github.com/MaoEmong/support-desk/blob/main/README.md",
     "branch": "main"
+  },
+  "flowmes": {
+    "images": [
+      {
+        "file": "04-executive-kpi.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/flowmes/255edfe0ece6c74bb82e9a113d7757b9d1a6691d/docs/screenshots/04-executive-kpi.png",
+        "alt": "교대별 생산 지표와 자료 부족 상태를 구분하는 현황판 · 시연 데이터",
+        "path": "/assets/images/flowmes-1.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "11-pm-work-order-detail.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/flowmes/255edfe0ece6c74bb82e9a113d7757b9d1a6691d/docs/screenshots/11-pm-work-order-detail.png",
+        "alt": "작업지시의 고정 기준·작업 세션·확정 실적과 정정 이력 · 시연 데이터",
+        "path": "/assets/images/flowmes-2.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "15-pm-trace.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/flowmes/255edfe0ece6c74bb82e9a113d7757b9d1a6691d/docs/screenshots/15-pm-trace.png",
+        "alt": "생산 묶음에서 사용 자재로 거슬러 올라가는 LOT 역추적 · 시연 데이터",
+        "path": "/assets/images/flowmes-3.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "18-pm-stock-balances.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/flowmes/255edfe0ece6c74bb82e9a113d7757b9d1a6691d/docs/screenshots/18-pm-stock-balances.png",
+        "alt": "창고·위치별 재고와 수입검사 대기·품질 보류 표시 · 시연 데이터",
+        "path": "/assets/images/flowmes-4.webp",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "file": "36-quality-spc.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/flowmes/255edfe0ece6c74bb82e9a113d7757b9d1a6691d/docs/screenshots/36-quality-spc.png",
+        "alt": "품질 측정값의 관리도와 기준 이탈 경고 · 시연 데이터",
+        "path": "/assets/images/flowmes-5.webp",
+        "width": 1440,
+        "height": 2242
+      },
+      {
+        "file": "33-pm-ai-kpi.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/flowmes/255edfe0ece6c74bb82e9a113d7757b9d1a6691d/docs/screenshots/33-pm-ai-kpi.png",
+        "alt": "허용된 생산 지표를 읽어 답하는 규칙 기반 AI 조회 · 시연 데이터, 실제 모델 미연결",
+        "path": "/assets/images/flowmes-6.webp",
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/flowmes/blob/main/README.md",
+    "branch": "main"
   }
 }
