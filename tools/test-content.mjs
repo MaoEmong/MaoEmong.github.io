@@ -28,10 +28,20 @@ test('every selected project explains its own problem, decisions, contribution a
     for(const s of [...d.sources,...d.validation]) assert.match(s.url,/^https:\/\/github.com\//,p.id);
   }
 });
-test('pixel office uses current 0.2.5 release and matching image captions',()=>{
+test('pixel office links to the release shown in its screenshots',async()=>{
   const p=projects.find(p=>p.id==='pixel-office');
-  assert(p.release.endsWith('/v0.2.5'));
-  assert(!JSON.stringify(p).includes('0.1.2'));
+  const version=new URL(p.release).pathname.split('/').at(-1).slice(1);
+  const html=await fs.readFile(new URL('../projects/pixel-office/index.html',import.meta.url),'utf8');
+  const assets=JSON.parse(await fs.readFile(new URL('../data/assets.json',import.meta.url),'utf8'));
+  assert(p.releaseLabel.includes(version));
+  assert(html.includes(`href="${p.release}"`));
+  assert(html.includes(`>${p.releaseLabel} `));
+  assert(assets['pixel-office'].images.length>0);
+  for(const image of assets['pixel-office'].images){
+    assert(image.source.includes(`/docs/screenshots/${version}/`));
+    assert(image.alt.includes(version));
+    assert(html.includes(`src="${image.path}"`));
+  }
 });
 test('generated selected pages expose substantial HTML and independently downloadable PDF links',async()=>{
   const main=await fs.readFile(new URL('../index.html',import.meta.url),'utf8');
