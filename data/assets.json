@@ -7,28 +7,52 @@
   "pixel-office": {
     "images": [
       {
-        "file": "21-running-inspection.png",
-        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/0.2.5/21-running-inspection.png",
-        "alt": "픽셀 오피스 0.2.5 · 팀의 작업 상태와 결과 대기",
-        "path": "/assets/images/pixel-office-0.2.5-1.webp",
-        "width": 1800,
-        "height": 974
+        "file": "03-office-overview.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/30adf13fe4dbf78201fdc95622a9f67b34634b81/docs/screenshots/0.3.0/03-office-overview.png",
+        "alt": "픽셀 오피스 0.3.0 · 역할별 캐릭터와 AI 이름을 좌석에서 확인하는 사무실",
+        "path": "/assets/images/pixel-office-0.3.0-1.webp",
+        "width": 1407,
+        "height": 911
+      },
+      {
+        "file": "25-workspace-windows.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/30adf13fe4dbf78201fdc95622a9f67b34634b81/docs/screenshots/0.3.0/25-workspace-windows.png",
+        "alt": "픽셀 오피스 0.3.0 · 사무실 위에 대화와 회의 창을 나란히 배치한 모습",
+        "path": "/assets/images/pixel-office-0.3.0-2.webp",
+        "width": 1280,
+        "height": 720
       },
       {
         "file": "04-result-wait.png",
-        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/0.2.5/04-result-wait.png",
-        "alt": "픽셀 오피스 0.2.5 · 필요한 결과와 다음 행동",
-        "path": "/assets/images/pixel-office-0.2.5-2.webp",
-        "width": 1800,
-        "height": 974
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/30adf13fe4dbf78201fdc95622a9f67b34634b81/docs/screenshots/0.3.0/04-result-wait.png",
+        "alt": "픽셀 오피스 0.3.0 · 담당자가 기다리는 결과와 이후 할 일을 보여 주는 직원 상세",
+        "path": "/assets/images/pixel-office-0.3.0-3.webp",
+        "width": 1407,
+        "height": 911
       },
       {
-        "file": "10-completion-result.png",
-        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/main/docs/screenshots/0.2.5/10-completion-result.png",
-        "alt": "픽셀 오피스 0.2.5 · 완료 보고와 바뀐 파일",
-        "path": "/assets/images/pixel-office-0.2.5-3.webp",
-        "width": 1800,
-        "height": 974
+        "file": "16-approval-and-question.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/30adf13fe4dbf78201fdc95622a9f67b34634b81/docs/screenshots/0.3.0/16-approval-and-question.png",
+        "alt": "픽셀 오피스 0.3.0 · 사용자 질문과 실행 허가 요청을 확인하는 화면",
+        "path": "/assets/images/pixel-office-0.3.0-4.webp",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "24-web-preview.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/30adf13fe4dbf78201fdc95622a9f67b34634b81/docs/screenshots/0.3.0/24-web-preview.png",
+        "alt": "픽셀 오피스 0.3.0 · 사무실과 함께 보는 웹 미리보기",
+        "path": "/assets/images/pixel-office-0.3.0-5.webp",
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "file": "23-office-memo.png",
+        "source": "https://raw.githubusercontent.com/MaoEmong/pixel-office/30adf13fe4dbf78201fdc95622a9f67b34634b81/docs/screenshots/0.3.0/23-office-memo.png",
+        "alt": "픽셀 오피스 0.3.0 · 부서별 메모를 남기는 사무실 게시판",
+        "path": "/assets/images/pixel-office-0.3.0-6.webp",
+        "width": 1407,
+        "height": 911
       }
     ],
     "readme": "https://github.com/MaoEmong/pixel-office/blob/main/README.md",
