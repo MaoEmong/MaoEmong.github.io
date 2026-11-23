@@ -3,7 +3,7 @@
 웹·백엔드와 AI 서비스 중심으로 선정한 12개 프로젝트의 상세 기술 사례와 PDF를 제공하는 정적 GitHub Pages 사이트입니다.
 
 - 사이트: https://maoemong.github.io/
-- 대표: FlowMES, EMS, 이커머스, Support Desk, 이음, 픽셀 오피스, Video Translator, 품질 회수와 재공급
+- 대표: FlowMES, EMS, 이커머스, Support Desk, 이음, 픽셀 오피스, Video Translator, AX 인재전쟁 W03 · 품질 회수와 재공급
 - 추가: Synapse, 여기 한국, LangGraph RAG, 하루 기록
 - 목록: `index.html`
 - 독립 상세: `projects/<id>/index.html`
