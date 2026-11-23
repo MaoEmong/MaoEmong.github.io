@@ -1,9 +1,9 @@
 # EMONG 개발 포트폴리오
 
-웹·백엔드와 AI 서비스 중심으로 선정한 11개 프로젝트의 상세 기술 사례와 PDF를 제공하는 정적 GitHub Pages 사이트입니다.
+웹·백엔드와 AI 서비스 중심으로 선정한 12개 프로젝트의 상세 기술 사례와 PDF를 제공하는 정적 GitHub Pages 사이트입니다.
 
 - 사이트: https://maoemong.github.io/
-- 대표: FlowMES, EMS, 이커머스, Support Desk, 이음, 픽셀 오피스, Video Translator
+- 대표: FlowMES, EMS, 이커머스, Support Desk, 이음, 픽셀 오피스, Video Translator, 품질 회수와 재공급
 - 추가: Synapse, 여기 한국, LangGraph RAG, 하루 기록
 - 목록: `index.html`
 - 독립 상세: `projects/<id>/index.html`
@@ -36,6 +36,7 @@ http://127.0.0.1:8080/ 에서 확인합니다. 루트 기준 경로를 사용하
 - `data/details/products.json`: 픽셀 오피스·이음·Video Translator의 상세 원문과 출처.
 - `data/details/supporting.json`: Synapse·여기 한국·LangGraph RAG·하루 기록의 상세 원문과 출처.
 - `data/details/flowmes.json`: FlowMES의 업무 흐름·설계 판단·최종 검사와 알려진 제한.
+- `data/details/quality-workflow.json`: 품질팀 업무 흐름과 회수·재공급 설계 사례, 대회 성과 및 공개본 검증.
 - `data/assets.json`: 이미지 파일·원본 주소·캡션.
 - `tools/build.mjs`: 목록·상세·보관 페이지·사이트맵과 PDF용 공통 JSON 생성.
 - `tools/build_pdfs.py`: 같은 상세 원문을 자동 페이지 나눔으로 PDF 조판.
@@ -52,7 +53,7 @@ python3 tools/test-pdfs.py
 python3 tools/review_pdfs.py
 ```
 
-PDF 생성 후 웹 생성기를 다시 실행하면 페이지 수와 파일 크기를 반영합니다. 일부만 갱신하려면 `python3 tools/build_pdfs.py --only flowmes`처럼 ID를 지정합니다. 그 외 PDF는 보존하며 선택한 11개 항목의 manifest를 갱신합니다. 별도의 과거 픽셀 오피스 PDF 생성기는 현재 갱신에 사용하지 않습니다.
+PDF 생성 후 웹 생성기를 다시 실행하면 페이지 수와 파일 크기를 반영합니다. 일부만 갱신하려면 `python3 tools/build_pdfs.py --only flowmes`처럼 ID를 지정합니다. 그 외 PDF는 보존하며 선정 프로젝트의 manifest를 갱신합니다. 별도의 과거 픽셀 오피스 PDF 생성기는 현재 갱신에 사용하지 않습니다.
 
 `tools/check_browser.cjs`는 Playwright가 설치된 환경에서 쓸 수 있는 브라우저 회귀 검사입니다. `PREVIEW_URL`로 서버 주소를 지정합니다. 기본 검사와 별도로 실제 브라우저에서 모바일·데스크톱 표시, 목차·이미지 확대·검색과 PDF 링크를 확인하세요.
 
