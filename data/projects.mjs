@@ -1,7 +1,7 @@
 import {readFileSync, existsSync} from 'node:fs';
 
 const catalog = [
- {id:'quality-workflow',repo:'emong-quality-workflow',title:'품질 회수와 재공급',category:'AI·서비스',tagline:'불량 신고부터 출하 전 확인까지 이어지는 품질팀 업무 앱',stack:['Node.js','TypeScript','JavaScript','OpenAI API'],
+ {id:'quality-workflow',repo:'emong-quality-workflow',title:'AX 인재전쟁 W03 · 품질 회수와 재공급',category:'AI·서비스',tagline:'불량 신고부터 출하 전 확인까지 이어지는 품질팀 업무 앱',stack:['Node.js','TypeScript','JavaScript','OpenAI API'],
  summary:'불량 판정과 회수 의결, 부서 협의에 따른 교체 물량 배정을 연결했습니다. AX 인재전쟁 참가자 2,916명 중 상위 10%를 달성했습니다.',
  features:[['불량 신고와 회수 판단','신고를 출하 기록과 대조하고 확정 불량률과 기준을 보여 줍니다. 사람이 안건을 상정하고 위원회 의결을 입력합니다.'],['조건 변경과 재배정','공통 원료 재검사나 회수 실적을 반영해 새 계획을 만듭니다. 부서가 거절하면 원안과 배정 대안을 비교합니다.'],['초안 확인과 출하 점검','AI가 제공하는 초안을 담당자가 확인합니다. 교체분은 최종 품질 확인을 거쳐 출하 가능 상태가 됩니다.']],
  imageNote:'공개본을 새 가상 예제 데이터로 실행하면서 촬영한 화면입니다.'},
