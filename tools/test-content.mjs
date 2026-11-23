@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {projects} from '../data/projects.mjs';
 
-const expected=['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','synapse','travel','langgraph-rag','haru'];
-test('public catalog leads with FlowMES and preserves the ten existing projects',()=>{
+const expected=['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','synapse','travel','langgraph-rag','haru'];
+test('public catalog leads with FlowMES and includes the quality workflow',()=>{
   assert.deepEqual(projects.map(p=>p.id),expected);
-  assert.equal(projects.filter(p=>p.featured).length,7);
+  assert.equal(projects.filter(p=>p.featured).length,8);
 });
 test('every selected project explains its own problem, decisions, contribution and evidence',()=>{
   for(const p of projects){

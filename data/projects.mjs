@@ -1,6 +1,10 @@
 import {readFileSync, existsSync} from 'node:fs';
 
 const catalog = [
+ {id:'quality-workflow',repo:'emong-quality-workflow',title:'품질 회수와 재공급',category:'AI·서비스',tagline:'불량 신고부터 출하 전 확인까지 이어지는 품질팀 업무 앱',stack:['Node.js','TypeScript','JavaScript','OpenAI API'],
+ summary:'불량 판정과 회수 의결, 부서 협의에 따른 교체 물량 배정을 연결했습니다. AX 인재전쟁 참가자 2,916명 중 상위 10%를 달성했습니다.',
+ features:[['불량 신고와 회수 판단','신고를 출하 기록과 대조하고 확정 불량률과 기준을 보여 줍니다. 사람이 안건을 상정하고 위원회 의결을 입력합니다.'],['조건 변경과 재배정','공통 원료 재검사나 회수 실적을 반영해 새 계획을 만듭니다. 부서가 거절하면 원안과 배정 대안을 비교합니다.'],['초안 확인과 출하 점검','AI가 제공하는 초안을 담당자가 확인합니다. 교체분은 최종 품질 확인을 거쳐 출하 가능 상태가 됩니다.']],
+ imageNote:'공개본을 새 가상 예제 데이터로 실행하면서 촬영한 화면입니다.'},
  {id:'flowmes',repo:'flowmes',title:'FlowMES 제조실행시스템',category:'웹·백엔드',tagline:'작업지시에서 생산·품질·재고·설비 기록까지 하나로',stack:['Java 21','Spring Boot','React','TypeScript','PostgreSQL','MQTT','Docker Compose'],
  features:[['생산과 현장 작업','기준정보·작업 배정부터 자재 스캔·실적·불량 확정과 연결 복구 후 재전송까지 이어집니다.'],['생산 묶음 추적과 품질','생산 묶음(LOT)의 자재·제품 관계를 추적하고, 검사 불합격 묶음의 사용·이동을 막습니다.'],['재고와 정정 이력','입고·이동·출고·실사를 관리하고, 원본을 남긴 반대 기록과 새 기록으로 정정합니다.'],['설비 현황과 생산 지표','시뮬레이터의 설비 메시지를 받아 상태·무응답·교대별 생산 지표를 구분해 표시합니다.'],['품질 통계·공구·예방보전','품질 관리도와 공구 수명, 정비 계획·기록, 리포트 내보내기와 알림을 제공합니다.'],['조회형 AI','허용된 조회로 업무 질문에 답하며 업무 데이터를 변경하지 않습니다. 기본은 규칙 해석이고 실제 모델 연결은 선택 사항입니다.']],
  flow:['작업 발행','자재 투입·실적 확정','품질·재고·이력 연결','현황 확인'],
@@ -97,16 +101,17 @@ const catalog = [
  {id:'suika',repo:'SuikaGame_Unity',title:'수박게임 · Watermelon',category:'게임',tagline:'물리 충돌로 같은 과일을 합성하다',stack:['Unity','C#','2D Physics'],summary:'같은 단계의 과일을 충돌시켜 합성하는 2D 퍼즐 프로토타입입니다.',overview:'마우스로 위치를 정해 과일을 떨어뜨리고 같은 과일이 만날 때 다음 단계로 합성합니다. 점수와 상단 체류 시간에 따른 게임 종료를 연결합니다.',features:[['과일 생성과 드롭','상단 대기 과일의 좌우 이동과 클릭으로 떨어뜨리는 조작을 구현했습니다.'],['충돌과 합성','동일 단계 과일의 충돌을 감지하고 다음 단계 과일 생성과 점수 증가를 처리합니다.'],['종료와 초기화','상단 게임오버 라인 체류 시간을 확인하고 메뉴 복귀 시 필드를 정리합니다.']],decisions:[['물리 기반 상호작용','2D 물리와 충돌 이벤트로 과일의 움직임과 합성을 연결합니다.']],flow:['위치 선택','과일 드롭','충돌·합성','점수·종료'],scope:'랭킹 패널은 있지만 실제 랭킹 로딩·저장·서버 연동은 구현 범위 밖입니다. README에는 자동화 테스트가 없다고 명시되어 있습니다.',imageNote:'공개 README의 프로토타입 화면입니다.',followup:['동시 충돌·중복 합성 방지와 종료 시점의 검증 사례 추가'],priority:'보통'},
 ];
 
-export const site={name:'EMONG',englishName:'EMONG',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-06'};
+export const site={name:'EMONG',englishName:'EMONG',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-23'};
 
 
-export const selectedIds = ['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','synapse','travel','langgraph-rag','haru'];
-const details = Object.assign({}, ...['business','products','supporting','flowmes'].map(name => {
+export const selectedIds = ['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','synapse','travel','langgraph-rag','haru'];
+const featuredIds = new Set(selectedIds.slice(0, 8));
+const details = Object.assign({}, ...['business','products','supporting','flowmes','quality-workflow'].map(name => {
   const file = new URL(`./details/${name}.json`, import.meta.url);
   return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
 }));
 const categories = {'ems':'웹·백엔드','commerce':'웹·백엔드','support-desk':'AI·서비스','ieum':'웹·백엔드','pixel-office':'개발 도구','video-translator':'AI·서비스','synapse':'웹·백엔드','travel':'웹·백엔드','langgraph-rag':'AI·서비스','haru':'모바일'};
 export const allProjects = catalog.map(p => ({...p, ...(details[p.id]?.base || {}),
-  category: categories[p.id] || p.category, featured: selectedIds.indexOf(p.id) >= 0 && selectedIds.indexOf(p.id) < 7,
+  category: categories[p.id] || p.category, featured: featuredIds.has(p.id),
   detail: details[p.id] || null, archived: !selectedIds.includes(p.id)}));
 export const projects = selectedIds.map(id => allProjects.find(p => p.id === id));

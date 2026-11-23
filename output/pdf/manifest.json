@@ -48,6 +48,13 @@
     "github": "https://github.com/MaoEmong/video-translator",
     "updated": "2026-11-01"
   },
+  "quality-workflow": {
+    "file": "quality-workflow-portfolio.pdf",
+    "pages": 7,
+    "bytes": 808081,
+    "github": "https://github.com/MaoEmong/emong-quality-workflow",
+    "updated": "2026-11-23"
+  },
   "synapse": {
     "file": "synapse-portfolio.pdf",
     "pages": 7,
