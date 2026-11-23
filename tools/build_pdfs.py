@@ -61,7 +61,19 @@ STYLE['validation-scope'] = ParagraphStyle('validation-scope', parent=STYLE['mut
 STYLE['validation-heading'] = ParagraphStyle('validation-heading', parent=STYLE['h2'], leading=19, spaceBefore=10, spaceAfter=7)
 
 def P(text, style='body'):
-    return Paragraph(escape(str(text)).replace('\n','<br/>'), STYLE[style])
+    value = str(text)
+    paragraph_style = STYLE[style]
+    if style == 'title':
+        title_width = pdfmetrics.stringWidth(value, paragraph_style.fontName, paragraph_style.fontSize)
+        available_width = CW - 12
+        if title_width > available_width:
+            ratio = max(0.8, available_width / title_width)
+            paragraph_style = ParagraphStyle(
+                'fitted-title', parent=paragraph_style,
+                fontSize=paragraph_style.fontSize * ratio,
+                leading=paragraph_style.leading * ratio,
+            )
+    return Paragraph(escape(value).replace('\n','<br/>'), paragraph_style)
 
 def L(label, url):
     return Paragraph(f'<link href="{escape(url, {chr(34): "&quot;"})}" color="#285943">{escape(label)}</link>', STYLE['link'])
