@@ -1,6 +1,9 @@
 {
   "synapse": {
     "base": {
+      "demo": "https://maoemong.github.io/synapse-design-preview/",
+      "demoLabel": "디자인 미리보기",
+      "updated": "2026-11-24",
       "tagline": "학습 플랫폼을 지탱하는 인증·결제·알림·감사 서비스",
       "summary": "노트와 반복 학습을 연결하는 팀 프로젝트에서 플랫폼 서비스의 인증, 결제, 알림, 감사 영역을 담당했습니다.",
       "overview": "Synapse는 노트·검색·학습카드·커뮤니티를 서비스 경계로 나눈 학습 플랫폼입니다. platform-svc를 담당해 공통 계정과 세션, Stripe 구독, 이벤트 알림과 감사 기록을 구성했습니다.",

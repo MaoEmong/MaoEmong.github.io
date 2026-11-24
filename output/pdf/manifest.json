@@ -55,6 +55,13 @@
     "github": "https://github.com/MaoEmong/emong-quality-workflow",
     "updated": "2026-11-23"
   },
+  "beattake": {
+    "file": "beattake-portfolio.pdf",
+    "pages": 8,
+    "bytes": 1226601,
+    "github": "https://github.com/MaoEmong/BeatTake",
+    "updated": "2026-11-24"
+  },
   "synapse": {
     "file": "synapse-portfolio.pdf",
     "pages": 7,

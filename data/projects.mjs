@@ -1,6 +1,11 @@
 import {readFileSync, existsSync} from 'node:fs';
 
 const catalog = [
+ {id:'beattake',repo:'BeatTake',title:'BeatTake',category:'모바일',tagline:'주변에서 들은 소리로 그 자리에서 곡을 만들다',stack:['Flutter','Dart','Android','GitHub Pages','OpenAI API'],
+ summary:'생활 소리를 녹음하고 다듬어 여러 트랙에 배치하는 음악 제작 앱입니다. 공개 웹에서 바로 체험할 수 있고 Android 설치 파일도 제공합니다.',
+ features:[['녹음과 소리 편집','마이크로 녹음한 원본을 보관하고, 구간과 음 높이를 조절한 소리는 별도 클립으로 저장합니다.'],['트랙 배치와 곡 보관함','클립마다 트랙과 시작 시간을 정합니다. 완성된 배치를 저장한 뒤 곡 보관함에서 다시 재생하거나 편집합니다.'],['선택형 AI 편곡','고른 클립과 분위기를 바탕으로 배치안을 받아 같은 편집 화면에서 수정할 수 있습니다.']],
+ imageNote:'2026년 11월 24일 공개 웹 앱을 한국어로 설정하고 휴대폰 크기의 브라우저에서 촬영했습니다. 화면에는 시연용 녹음과 곡을 사용했습니다.',
+ updated:'2026-11-24',portraitGallery:true,demo:'https://maoemong.github.io/BeatTake/',release:'https://github.com/MaoEmong/BeatTake/releases/tag/v1.0.0',releaseLabel:'Android APK'},
  {id:'quality-workflow',repo:'emong-quality-workflow',title:'AX 인재전쟁 W03 · 품질 회수와 재공급',category:'AI·서비스',tagline:'불량 신고부터 출하 전 확인까지 이어지는 품질팀 업무 앱',stack:['Node.js','TypeScript','JavaScript','OpenAI API'],
  summary:'불량 판정과 회수 의결, 부서 협의에 따른 교체 물량 배정을 연결했습니다. AX 인재전쟁 참가자 2,916명 중 상위 10%를 달성했습니다.',
  features:[['불량 신고와 회수 판단','신고를 출하 기록과 대조하고 확정 불량률과 기준을 보여 줍니다. 사람이 안건을 상정하고 위원회 의결을 입력합니다.'],['조건 변경과 재배정','공통 원료 재검사나 회수 실적을 반영해 새 계획을 만듭니다. 부서가 거절하면 원안과 배정 대안을 비교합니다.'],['초안 확인과 출하 점검','AI가 제공하는 초안을 담당자가 확인합니다. 교체분은 최종 품질 확인을 거쳐 출하 가능 상태가 됩니다.']],
@@ -104,9 +109,9 @@ const catalog = [
 export const site={name:'EMONG',englishName:'EMONG',github:'https://github.com/MaoEmong',blog:'https://devmong.inblog.io/',url:'https://maoemong.github.io',updated:'2026-11-23'};
 
 
-export const selectedIds = ['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','synapse','travel','langgraph-rag','haru'];
-const featuredIds = new Set(selectedIds.slice(0, 8));
-const details = Object.assign({}, ...['business','products','supporting','flowmes','quality-workflow'].map(name => {
+export const selectedIds = ['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','beattake','synapse','travel','langgraph-rag','haru'];
+const featuredIds = new Set(selectedIds.slice(0, 9));
+const details = Object.assign({}, ...['business','products','supporting','flowmes','quality-workflow','beattake'].map(name => {
   const file = new URL(`./details/${name}.json`, import.meta.url);
   return existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
 }));

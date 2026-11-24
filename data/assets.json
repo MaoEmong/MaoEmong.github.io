@@ -521,6 +521,60 @@
     "readme": "https://github.com/MaoEmong/flowmes/blob/main/README.md",
     "branch": "main"
   },
+  "beattake": {
+    "images": [
+      {
+        "file": "beattake-1.png",
+        "source": "https://maoemong.github.io/BeatTake/",
+        "alt": "BeatTake 한국어 홈에서 녹음과 곡 만들기를 시작하는 화면",
+        "path": "/assets/images/beattake-1.webp",
+        "width": 856,
+        "height": 1800
+      },
+      {
+        "file": "beattake-2.png",
+        "source": "https://maoemong.github.io/BeatTake/",
+        "alt": "마이크로 시연용 소리를 녹음하며 시간과 소리 크기를 확인하는 화면",
+        "path": "/assets/images/beattake-2.webp",
+        "width": 856,
+        "height": 1800
+      },
+      {
+        "file": "beattake-3.png",
+        "source": "https://maoemong.github.io/BeatTake/",
+        "alt": "책상 두드림 소리의 구간과 음 높이를 다듬는 화면",
+        "path": "/assets/images/beattake-3.webp",
+        "width": 856,
+        "height": 1800
+      },
+      {
+        "file": "beattake-4.png",
+        "source": "https://maoemong.github.io/BeatTake/",
+        "alt": "책상 두드림과 셰이커 클립이 저장된 소리 보관함",
+        "path": "/assets/images/beattake-4.webp",
+        "width": 856,
+        "height": 1800
+      },
+      {
+        "file": "beattake-5.png",
+        "source": "https://maoemong.github.io/BeatTake/",
+        "alt": "두 트랙에 소리의 시작 시간을 다르게 배치한 곡 편집 화면",
+        "path": "/assets/images/beattake-5.webp",
+        "width": 856,
+        "height": 1800
+      },
+      {
+        "file": "beattake-6.png",
+        "source": "https://maoemong.github.io/BeatTake/",
+        "alt": "책상 앞 작은 리듬을 저장한 곡 보관함",
+        "path": "/assets/images/beattake-6.webp",
+        "width": 856,
+        "height": 1800
+      }
+    ],
+    "readme": "https://github.com/MaoEmong/BeatTake/blob/main/README.ko.md",
+    "branch": "main"
+  },
   "quality-workflow": {
     "images": [
       {
