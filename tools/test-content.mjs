@@ -4,9 +4,12 @@ import fs from 'node:fs/promises';
 import {projects} from '../data/projects.mjs';
 
 const expected=['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','beattake','synapse','travel','langgraph-rag','haru'];
-test('public catalog leads with FlowMES and includes BeatTake',()=>{
+test('public catalog leads with FlowMES and identifies BeatTake as a Vibe Forge entry',async()=>{
   assert.deepEqual(projects.map(p=>p.id),expected);
   assert.equal(projects.filter(p=>p.featured).length,9);
+  const main=await fs.readFile(new URL('../index.html',import.meta.url),'utf8');
+  assert.match(main, /href="\/projects\/beattake\/"[^>]*><span class="row-number">09<\/span><div class="row-content"><div class="row-heading"><h3>Vibe Forge 2026 출품작 · BeatTake<\/h3>/);
+  assert.match(main, /href="\/projects\/beattake\/"[^>]*><span class="nav-number">09<\/span><span>Vibe Forge 2026 출품작 · BeatTake<\/span>/);
 });
 test('BeatTake shows its six Korean screenshots and Synapse links to its design preview',async()=>{
   const base = new URL('../', import.meta.url);
