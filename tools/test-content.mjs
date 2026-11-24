@@ -3,10 +3,22 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {projects} from '../data/projects.mjs';
 
-const expected=['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','synapse','travel','langgraph-rag','haru'];
-test('public catalog leads with FlowMES and includes the quality workflow',()=>{
+const expected=['flowmes','ems','commerce','support-desk','ieum','pixel-office','video-translator','quality-workflow','beattake','synapse','travel','langgraph-rag','haru'];
+test('public catalog leads with FlowMES and includes BeatTake',()=>{
   assert.deepEqual(projects.map(p=>p.id),expected);
-  assert.equal(projects.filter(p=>p.featured).length,8);
+  assert.equal(projects.filter(p=>p.featured).length,9);
+});
+test('BeatTake shows its six Korean screenshots and Synapse links to its design preview',async()=>{
+  const base = new URL('../', import.meta.url);
+  const assets = JSON.parse(await fs.readFile(new URL('data/assets.json', base), 'utf8'));
+  const beat = await fs.readFile(new URL('projects/beattake/index.html', base), 'utf8');
+  const synapse = await fs.readFile(new URL('projects/synapse/index.html', base), 'utf8');
+  assert.equal(assets.beattake.images.length, 6);
+  for (const image of assets.beattake.images) {
+    assert(beat.includes(`src="${image.path}"`));
+  }
+  assert.match(beat, /href="#screens">한국어 화면/);
+  assert.match(synapse, /href="https:\/\/maoemong\.github\.io\/synapse-design-preview\/"[^>]*>디자인 미리보기/);
 });
 test('every selected project explains its own problem, decisions, contribution and evidence',()=>{
   for(const p of projects){

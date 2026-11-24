@@ -126,7 +126,10 @@ def make(p):
     def bullet(items):
         for item in items:
             story.append(P('• '+item))
-    story.extend([Spacer(1,12),P('SELECTED WORKS / '+p['category'],'label'),Spacer(1,10),P(p['title'],'title'),P(p['tagline'],'lead'),P(p['summary']),L(p['github'],p['github']),L('웹 상세 소개 보기',f'https://maoemong.github.io/projects/{p["id"]}/'),P(' · '.join(p['stack']),'muted')])
+    story.extend([Spacer(1,12),P('SELECTED WORKS / '+p['category'],'label'),Spacer(1,10),P(p['title'],'title'),P(p['tagline'],'lead'),P(p['summary']),L(p['github'],p['github']),L('웹 상세 소개 보기',f'https://maoemong.github.io/projects/{p["id"]}/')])
+    if p.get('demo'):
+        story.append(L(p.get('demoLabel','화면 데모'),p['demo']))
+    story.append(P(' · '.join(p['stack']),'muted'))
     facts = [[P(f['label'],'label'),P(f['value'],'muted')] for f in d['facts']]
     table = Table(facts, colWidths=[90,CW-90], hAlign='LEFT')
     table.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BACKGROUND',(0,0),(-1,-1),PALE),('LEFTPADDING',(0,0),(-1,-1),11),('RIGHTPADDING',(0,0),(-1,-1),11),('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),3)]))
@@ -168,14 +171,27 @@ def make(p):
     if images:
         section('07','SCREENS','프로젝트 화면',new_page=True)
         story.append(P(p.get('imageNote','공개 README에 수록된 프로젝트 화면입니다.'),'small'))
+        figures = []
+        portrait_gallery = p.get('portraitGallery')
         for image in images:
             image_file = ROOT/image['path'].lstrip('/')
             with PILImage.open(image_file) as pic:
                 iw,ih = pic.size
-            scale = min(CW/iw, 530/ih)
+            max_width = (CW-20)/2 if portrait_gallery else CW
+            max_height = 322 if portrait_gallery else 530
+            scale = min(max_width/iw, max_height/ih)
             figure = Image(str(image_file),width=iw*scale,height=ih*scale)
             figure.hAlign = 'CENTER'
-            story.append(KeepTogether([figure,Spacer(1,6),P(image['alt'],'small'),Spacer(1,14)]))
+            figures.append([figure,Spacer(1,6),P(image['alt'],'small'),Spacer(1,14)])
+        if portrait_gallery:
+            for start in range(0, len(figures), 2):
+                pair = figures[start:start+2]
+                row = [pair[0], '', pair[1] if len(pair) == 2 else '']
+                table = Table([row], colWidths=[max_width,20,max_width],
+                              style=[('VALIGN',(0,0),(-1,-1),'TOP')])
+                story.append(KeepTogether([table]))
+        else:
+            story.extend(KeepTogether(figure) for figure in figures)
     sources_start = len(story)
     section('08' if images else '07','SOURCE MATERIAL','코드와 개발 기록',new_page=False)
     story.append(P('아래 공개 자료에서 구현 범위와 설계 판단을 확인할 수 있습니다. 링크를 누르면 원문으로 이동합니다.'))

@@ -19,3 +19,23 @@ html{scroll-behavior:smooth;scroll-padding-top:30px}.catalog-note{font-size:12px
 @media(max-width:767px){html{scroll-padding-top:85px}.case-summary{font-size:13px;line-height:1.9;margin-top:-5px}.case-facts{gap:0 20px}.case-facts>div{padding:17px 0}.case-facts dt{font-size:9px}.case-facts dd{font-size:12px}.case-toc{gap:7px 17px;padding:23px 0}.case-toc a{font-size:11px;min-height:31px}.rich-case .case-section{padding:36px 0}.rich-case .case-section>p,.rich-case #contribution p{font-size:14px;line-height:2}.rich-case .case-section h2{font-size:23px}.rich-case .subsection-heading{font-size:17px;margin-top:28px}.journey li{grid-template-columns:25px minmax(0,1fr);gap:10px;padding:18px 0}.journey h3{font-size:15px}.journey p{font-size:13px!important}.architecture-map{grid-template-columns:1fr;gap:22px}.architecture-map li{padding-top:19px}.architecture-map p{font-size:13px}.engineering-cases{gap:30px}.engineering-case{padding-top:24px}.engineering-case h3{font-size:20px;margin-bottom:21px}.engineering-case dl>div{grid-template-columns:1fr;gap:6px;margin-bottom:19px}.engineering-case dt{font-size:11px}.engineering-case dd{font-size:13px;line-height:2}.validation-list p{font-size:13px}.prose-list{font-size:13px}.source-list a{font-size:13px}.catalog-note{font-size:11px}.case-section p.section-intro{font-size:12px}.filters{gap:3px}.filters button{padding:8px 7px}}
 @media print{.case-toc,.archive-notice{display:none}.rich-case .case-section{break-inside:auto}.engineering-case,.validation-list article,.screen-figure{break-inside:avoid}.case-facts{break-inside:avoid}html{scroll-behavior:auto}}
 @media(min-width:768px){.rich-case .case-header{padding-top:18px;padding-bottom:28px}.rich-case .case-header h1{margin-bottom:13px}.rich-case .case-tagline{margin-bottom:20px}.rich-case .case-summary{margin-bottom:22px}.rich-case .repo-link{margin-bottom:20px}.rich-case .tech-list{margin-top:18px}.case-facts>div{padding:15px 0}.case-toc{padding:19px 0 21px}.rich-case .case-section{padding-top:43px;padding-bottom:43px}}
+
+/* Phone screenshots stay together rather than filling a row one at a time. */
+.screen-gallery--portrait {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.screen-gallery--portrait .primary-screen {
+  grid-column: auto;
+}
+.screen-gallery--portrait .screen-figure img {
+  display: block;
+  height: auto;
+  max-height: none;
+}
+@media (max-width: 767px) {
+  .screen-gallery--portrait {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
