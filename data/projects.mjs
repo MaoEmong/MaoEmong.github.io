@@ -3,7 +3,7 @@ import {readFileSync, existsSync} from 'node:fs';
 const catalog = [
  {id:'beattake',repo:'BeatTake',title:'BeatTake',category:'모바일',tagline:'주변에서 들은 소리로 그 자리에서 곡을 만들다',stack:['Flutter','Dart','Android','GitHub Pages','OpenAI API'],
  summary:'생활 소리를 녹음하고 다듬어 여러 트랙에 배치하는 음악 제작 앱입니다. 공개 웹에서 바로 체험할 수 있고 Android 설치 파일도 제공합니다.',
- catalogNote:'Vibe Forge 2026 개인 출품작입니다.',
+ catalogTitle:'Vibe Forge 2026 출품작 · BeatTake',
  features:[['녹음과 소리 편집','마이크로 녹음한 원본을 보관하고, 구간과 음 높이를 조절한 소리는 별도 클립으로 저장합니다.'],['트랙 배치와 곡 보관함','클립마다 트랙과 시작 시간을 정합니다. 완성된 배치를 저장한 뒤 곡 보관함에서 다시 재생하거나 편집합니다.'],['선택형 AI 편곡','고른 클립과 분위기를 바탕으로 배치안을 받아 같은 편집 화면에서 수정할 수 있습니다.']],
  imageNote:'2026년 11월 24일 공개 웹 앱을 한국어로 설정하고 휴대폰 크기의 브라우저에서 촬영했습니다. 화면에는 시연용 녹음과 곡을 사용했습니다.',
  updated:'2026-11-24',portraitGallery:true,demo:'https://maoemong.github.io/BeatTake/',release:'https://github.com/MaoEmong/BeatTake/releases/tag/v1.0.0',releaseLabel:'Android APK'},
